@@ -37,11 +37,12 @@ public class TweetView extends BindableLayout<Tweet> {
 
     public void initView() {
         // Here we should assign the layout, inflate the views (or use butterknife or something similar), etc.
+        // [...]
     }
 
     @Override
     public void bind(Tweet tweet) {
-        // In here we assign "tweet" values to our view widgets
+        // In here we assign the model information values to our view widgets
 
         // Examples:
         tweetText.setText(tweet.getText());
@@ -49,8 +50,29 @@ public class TweetView extends BindableLayout<Tweet> {
 
         // and so on!
     }
-
 }
+
+A nice side effect is that we can pretty much switch back and forth to using ListView or RecyclerView without having to change anything in these views. We also got some more granular control over the events for those view widgets. We could pretty much add different onClick events to the row, to some button inside of it, etc.
+
+We can notify the listener with some specific calls to be able to handle the events wherever the adapter is being instantiated, instead of doing it all inside the view code (which would be pretty messy).
+
+```java
+    public void bind(MyModel model) {
+        // Set a global click handler
+        setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                notifyItemAction(ROW_PRESSED);
+            }
+        });
+        favoriteButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                notifyItemAction(FAVORITE_PRESSED);
+            }
+        });
+    }
+```
 
 ```
 
