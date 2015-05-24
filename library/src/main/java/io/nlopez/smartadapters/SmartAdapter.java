@@ -9,7 +9,7 @@ import java.util.List;
 
 import io.nlopez.smartadapters.adapters.MultiAdapter;
 import io.nlopez.smartadapters.adapters.RecyclerMultiAdapter;
-import io.nlopez.smartadapters.utils.BindableLayoutBuilder;
+import io.nlopez.smartadapters.builders.BindableLayoutBuilder;
 import io.nlopez.smartadapters.utils.Mapper;
 import io.nlopez.smartadapters.utils.ViewEventListener;
 import io.nlopez.smartadapters.views.BindableLayout;

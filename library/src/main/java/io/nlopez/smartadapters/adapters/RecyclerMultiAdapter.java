@@ -1,18 +1,16 @@
 package io.nlopez.smartadapters.adapters;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import io.nlopez.smartadapters.utils.BindableLayoutBuilder;
+import io.nlopez.smartadapters.builders.BindableLayoutBuilder;
+import io.nlopez.smartadapters.builders.DefaultBindableLayoutBuilder;
 import io.nlopez.smartadapters.utils.Mapper;
-import io.nlopez.smartadapters.utils.Reflections;
 import io.nlopez.smartadapters.utils.ThreadHelper;
 import io.nlopez.smartadapters.utils.ViewEventListener;
 import io.nlopez.smartadapters.views.BindableLayout;
@@ -123,18 +121,6 @@ public class RecyclerMultiAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     private static BindableLayoutBuilder createDefaultBuilder(final Mapper mapper) {
-        return new BindableLayoutBuilder() {
-            @Override
-            public BindableLayout build(Context context, Class aClass, Object item) {
-                try {
-                    Class modelClass = (item == null) ? aClass : item.getClass();
-                    Class viewClass = mapper.asMap().get(modelClass);
-                    Constructor constructor = Reflections.constructor(viewClass, Context.class);
-                    return (BindableLayout) constructor.newInstance(context);
-                } catch (Exception e) {
-                    throw new RuntimeException("Something went wrong creating the views", e);
-                }
-            }
-        };
+        return new DefaultBindableLayoutBuilder(mapper);
     }
 }

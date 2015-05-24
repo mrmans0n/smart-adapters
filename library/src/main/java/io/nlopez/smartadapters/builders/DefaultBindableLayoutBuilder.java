@@ -2,25 +2,27 @@ package io.nlopez.smartadapters.builders;
 
 import android.content.Context;
 
-import java.lang.reflect.Method;
+import java.lang.reflect.Constructor;
 
 import io.nlopez.smartadapters.utils.Mapper;
 import io.nlopez.smartadapters.utils.Reflections;
 import io.nlopez.smartadapters.views.BindableLayout;
 
-public class AABindableLayoutBuilder extends BindableLayoutBuilder {
+/**
+ * Created by mrm on 24/5/15.
+ */
+public class DefaultBindableLayoutBuilder extends BindableLayoutBuilder {
 
-    public AABindableLayoutBuilder(Mapper mapper) {
+    public DefaultBindableLayoutBuilder(Mapper mapper) {
         super(mapper);
     }
 
     @Override
     public BindableLayout build(Context context, Class aClass, Object item) {
         try {
-            Class modelClass = (item == null) ? aClass : item.getClass();
-            Class viewClass = getMapper().asMap().get(modelClass);
-            Method method = Reflections.method(viewClass, "build", Context.class);
-            return (BindableLayout) method.invoke(null, context);
+            Class viewClass = getMapper().asMap().get(aClass);
+            Constructor constructor = Reflections.constructor(viewClass, Context.class);
+            return (BindableLayout) constructor.newInstance(context);
         } catch (Exception e) {
             throw new RuntimeException("Something went wrong creating the views", e);
         }
