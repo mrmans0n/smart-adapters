@@ -9,7 +9,7 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import io.nlopez.smartadapters.SmartAdapters;
+import io.nlopez.smartadapters.SmartAdapter;
 import io.nlopez.smartadapters.sample.model.User;
 import io.nlopez.smartadapters.sample.util.DataGenerator;
 import io.nlopez.smartadapters.sample.view.UserView;
@@ -31,7 +31,7 @@ public class SingleRecyclerViewActivity extends Activity {
     private void initView() {
         List<User> userList = DataGenerator.generateUsers(100);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        SmartAdapters.single(UserView.class).items(userList).into(recyclerView);
+        SmartAdapter.items(userList).map(User.class, UserView.class).into(recyclerView);
     }
 
 }

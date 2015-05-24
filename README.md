@@ -1,11 +1,11 @@
-Smart Adapers Library
-=====================
+Smart Adapters Library
+======================
 
 [![Build Status](https://travis-ci.org/mrmans0n/smart-adapters.svg?branch=master)](https://travis-ci.org/mrmans0n/smart-adapters)
 
 Android library project that intends to simplify the usage of Adapters for ListView/GridView and RecyclerView.
 
-It helps to keep boilerplate to a minimum and adds the possibility of easily changing between BaseAdapter / RecyclerView.Adapter types without changing almost any code.
+It helps to keep boilerplate to a minimum and adds the possibility of easily changing between BaseAdapter / RecyclerView.Adapter types without changing almost any code. It also allows painless usage of multiple models / view types for a
 
 Formerly part of [nl-toolkit](https://github.com/mrmans0n/nl-toolkit).
 
@@ -17,7 +17,7 @@ Adding to your project
 You should add this to your dependencies:
 
 ```groovy
-compile 'io.nlopez.smartadapters:library:1.0.0'
+compile 'io.nlopez.smartadapters:library:1.0.0-SNAPSHOT'
 ```
 
 Usage
@@ -28,30 +28,29 @@ Usage
 If we got the typical list with one object mapped to one view, for example Tweet -> TweetView, it's as simple as this:
 
 ```java
-SmartAdapters.single(TweetView.class, Tweet.class).items(myObjectList).into(myListView);
+SmartAdapters.items(myObjectList).map(Tweet.class, TweetView.class).into(myListView);
 ```
 
 **Note** that we have to prepare a bit the view (TweetView in this case). Please read the "Preparing your view classes" section.
 
-If we need to do a more complex list, with different models mapped to different views, we can do it too. Here is an example:
+If we need to do a more complex list, with different models mapped to different views, we just have to add more `map` calls. Here is an example:
 
 ```java
-SmartAdapters.multi()
+SmartAdapters.items(myObjectList)
     .map(Tweet.class, TweetView.class)
     .map(String.class, ListHeaderView.class)
     .map(User.class, UserView.class)
-    .items(myObjectList)
     .into(myListView);
 ```
 
 You can pass an AbsListView based control (ListView, GridView) or a RecyclerView to the `into` methods. The class will use the appropriate adapter class depending on which control you pass in there.
 
-The `items` method is optional. You can always add items later to the adapter and the classes will start with an empty array.
+We can change the `items(...)` call for `empty()` if we want an adapter initialized with an empty array.
 
 The calls from before return the adapter, so if you want to store it for manipulating it afterwards you can do it. For example:
 
 ```java
-SingleAdapter<TweetView, Tweet> adapter = SmartAdapters.single(TweetView.class).into(myListView);
+MultiAdapter adapter = SmartAdapter.empty().map(Tweet.class, TweetView.class).into(myListView);
 
 // We can add more stuff. The list will update and refresh its views.
 adapter.addItems(moreItems);
@@ -119,9 +118,9 @@ If we want to control any event in our view classes at the adapter level, we can
 For example:
 
 ```java
-SmartAdapters.single(TweetView.class)
+SmartAdapters.items(myObjectList)
+    .map(Tweet.class, TweetView.class)
     .listener(myViewListener)
-    .items(myObjectList)
     .into(myListView);
 ```
 
@@ -136,21 +135,37 @@ myViewListener = new ViewEventListener<Tweet>() {
 };
 ```
 
-### Android Annotations EViewGroup support
+### Advanced usage with custom builders
 
-Android Annotations generated @EViewGroup classes are instantiated by calling a static `.build()` method on the view class instead of using the constructor. In fact, if you used the constructor there, you would probably ended up getting a runtime exception.
+If we want to display different cells depending on the data of a single model or something more convoluted, we can specify our own BindableLayoutBuilder interface for the classes to be instantiated.
 
-There is a flag in the library for supporting this automatically: `.aa(true)`. You have to use the generated class instead of the base class when performing the call.
-
-For example:
+Here we have an example of a custom BindableLayoutBuilder created for Android Annotations support:
 
 ```java
-SmartAdapters.single(TweetView_.class)
-    .listener(myViewListener)
-    .aa(true)
-    .items(myObjectList)
-    .into(myListView);
+public class AAMultiBindableLayoutBuilder implements BindableLayoutBuilder {
+
+    protected Map<Class, Class<? extends BindableLayout>> itemViewMapping;
+
+    public AAMultiBindableLayoutBuilder(final Mapper mapper) {
+        this.itemViewMapping = mapper.asMap();
+    }
+
+    @Override
+    public BindableLayout build(Context context, Class aClass, Object item) {
+        try {
+            Class modelClass = (item == null) ? aClass : item.getClass();
+            Class viewClass = itemViewMapping.get(modelClass);
+            Method method = Reflections.method(viewClass, "build", Context.class);
+            return (BindableLayout) method.invoke(null, context);
+        } catch (Exception e) {
+            throw new RuntimeException("Something went wrong creating the views", e);
+        }
+    }
+}
+
 ```
+
+The idea behind this is that you can, given the object, create the view class that you want and return it.
 
 Contributing
 ------------
