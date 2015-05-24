@@ -12,7 +12,7 @@ Formerly part of [nl-toolkit](https://github.com/mrmans0n/nl-toolkit).
 Adding to your project
 ----------------------
 
-**NOTE** The library is in heavy development at this time so it's possible it's still not available in central repositories.
+**NOTE** The library is in heavy development at this time so it's possible it's still not available in central repositories. Also, the API is bound to be changing a lot for the time being.
 
 You should add this to your dependencies:
 
@@ -139,14 +139,14 @@ myViewListener = new ViewEventListener<Tweet>() {
 
 If we want to display different cells depending on the data of a single model or something more convoluted, we can specify our own BindableLayoutBuilder interface for the classes to be instantiated.
 
-Here we have an example of a custom BindableLayoutBuilder created for Android Annotations support:
+Here we have an example of a custom BindableLayoutBuilder created for Android Annotations support (which is included in the library as well):
 
 ```java
-public class AAMultiBindableLayoutBuilder implements BindableLayoutBuilder {
+public class AABindableLayoutBuilder implements BindableLayoutBuilder {
 
     protected Map<Class, Class<? extends BindableLayout>> itemViewMapping;
 
-    public AAMultiBindableLayoutBuilder(final Mapper mapper) {
+    public AABindableLayoutBuilder(final Mapper mapper) {
         this.itemViewMapping = mapper.asMap();
     }
 
@@ -163,6 +163,18 @@ public class AAMultiBindableLayoutBuilder implements BindableLayoutBuilder {
     }
 }
 
+```
+
+We can add it to the adapter like this:
+
+```java
+Mapper mapper = new Mapper().add(Tweet.class, TweetView_.class);
+
+SmartAdapters.items(myObjectList)
+    .mapper(mapper)
+    .listener(myViewListener)
+    .builder(new AABindableLayoutBuilder(mapper))
+    .into(myListView);
 ```
 
 The idea behind this is that you can, given the object, create the view class that you want and return it.
