@@ -142,19 +142,17 @@ If we want to display different cells depending on the data of a single model or
 Here we have an example of a custom BindableLayoutBuilder created for Android Annotations support (which is included in the library as well):
 
 ```java
-public class AABindableLayoutBuilder implements BindableLayoutBuilder {
+public class AABindableLayoutBuilder extends BindableLayoutBuilder {
 
-    protected Map<Class, Class<? extends BindableLayout>> itemViewMapping;
-
-    public AABindableLayoutBuilder(final Mapper mapper) {
-        this.itemViewMapping = mapper.asMap();
+    public AABindableLayoutBuilder(Mapper mapper) {
+        super(mapper);
     }
 
     @Override
     public BindableLayout build(Context context, Class aClass, Object item) {
         try {
             Class modelClass = (item == null) ? aClass : item.getClass();
-            Class viewClass = itemViewMapping.get(modelClass);
+            Class viewClass = getMapper().asMap().get(modelClass);
             Method method = Reflections.method(viewClass, "build", Context.class);
             return (BindableLayout) method.invoke(null, context);
         } catch (Exception e) {
@@ -177,7 +175,7 @@ SmartAdapters.items(myObjectList)
     .into(myListView);
 ```
 
-The idea behind this is that you can, given the object, create the view class that you want and return it.
+The idea behind this is that you can, given the object and its clas, create the view class by yourself and return to the adapter.
 
 Contributing
 ------------
