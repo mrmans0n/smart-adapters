@@ -14,7 +14,7 @@
 
         <activity
             android:name="io.nlopez.smartadapters.sample.MainActivity"
-            android:label="SmartLocation Sample"
+            android:label="SmartAdapters Sample"
             android:screenOrientation="portrait">
 
             <intent-filter>

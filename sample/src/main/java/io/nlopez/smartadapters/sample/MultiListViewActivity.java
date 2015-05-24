@@ -4,8 +4,16 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.widget.ListView;
 
+import java.util.List;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import io.nlopez.smartadapters.SmartAdapters;
+import io.nlopez.smartadapters.sample.model.Place;
+import io.nlopez.smartadapters.sample.model.User;
+import io.nlopez.smartadapters.sample.util.DataGenerator;
+import io.nlopez.smartadapters.sample.view.PlaceView;
+import io.nlopez.smartadapters.sample.view.UserView;
 
 public class MultiListViewActivity extends Activity {
 
@@ -22,7 +30,8 @@ public class MultiListViewActivity extends Activity {
     }
 
     private void initView() {
-        // TODO insert elements and blah blah
+        List mixedList = DataGenerator.generateMix(100);
+        SmartAdapters.multi().map(User.class, UserView.class).map(Place.class, PlaceView.class).items(mixedList).into(listView);
     }
 
 }

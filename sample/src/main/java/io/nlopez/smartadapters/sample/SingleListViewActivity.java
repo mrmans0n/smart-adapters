@@ -29,7 +29,7 @@ public class SingleListViewActivity extends Activity {
 
     private void initView() {
         List<User> userList = DataGenerator.generateUsers(100);
-        SmartAdapters.<User, UserView>single(UserView.class).items(userList).into(listView);
+        SmartAdapters.single(UserView.class).items(userList).into(listView);
     }
 
 }

@@ -32,7 +32,11 @@ public class MultiAdapter extends BaseAdapter {
     public MultiAdapter(Mapper mapper, List listItems, BindableLayoutBuilder builder) {
         this.listItems = listItems;
         this.itemViewMapping = mapper.asMap();
-        this.builder = builder;
+        if (builder == null) {
+            builder = createDefaultBuilder(mapper);
+        } else {
+            this.builder = builder;
+        }
         this.itemClassArray = new ArrayList<>(itemViewMapping.keySet());
     }
 
