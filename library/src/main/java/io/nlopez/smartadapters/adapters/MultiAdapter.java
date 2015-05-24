@@ -33,7 +33,7 @@ public class MultiAdapter extends BaseAdapter {
         this.listItems = listItems;
         this.itemViewMapping = mapper.asMap();
         if (builder == null) {
-            builder = createDefaultBuilder(mapper);
+            this.builder = createDefaultBuilder(mapper);
         } else {
             this.builder = builder;
         }
