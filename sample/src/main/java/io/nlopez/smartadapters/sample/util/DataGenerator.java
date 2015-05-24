@@ -24,7 +24,7 @@ public class DataGenerator {
             String name = names.get(RANDOM.nextInt(names.size()));
             String last = lastNames.get(RANDOM.nextInt(lastNames.size()));
             String role = roles.get(RANDOM.nextInt(roles.size()));
-            User user = new User(name, last, role, "http://lorempixel.com/200/200/people?rand=" + RANDOM.nextInt());
+            User user = new User(name, last, role, "http://loremflickr.com/200/200/person/all?random=" + i);
             result.add(user);
         }
         return result;
@@ -39,7 +39,7 @@ public class DataGenerator {
                 char tmp = (char) ('a' + RANDOM.nextInt('z' - 'a'));
                 sb.append(tmp);
             }
-            Place place = new Place(sb.toString(), "http://lorempixel.com/500/200/city?rand=" + RANDOM.nextInt());
+            Place place = new Place(sb.toString(), "http://loremflickr.com/600/300/city/all?random=" + i);
             result.add(place);
         }
         return result;

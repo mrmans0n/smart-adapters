@@ -164,4 +164,4 @@ Nacho López - Github [@mrmans0n](https://github.com/mrmans0n) - Twitter [@mrman
 License
 -------
 
-[Read here](LICENSE)
+[MIT License](LICENSE)
