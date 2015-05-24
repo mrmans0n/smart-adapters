@@ -28,7 +28,7 @@ Usage
 If we got the typical list with one object mapped to one view, for example Tweet -> TweetView, it's as simple as this:
 
 ```java
-SmartAdapters.items(myObjectList).map(Tweet.class, TweetView.class).into(myListView);
+SmartAdapter.items(myObjectList).map(Tweet.class, TweetView.class).into(myListView);
 ```
 
 **Note** that we have to prepare a bit the view (TweetView in this case). Please read the "Preparing your view classes" section.
@@ -36,7 +36,7 @@ SmartAdapters.items(myObjectList).map(Tweet.class, TweetView.class).into(myListV
 If we need to do a more complex list, with different models mapped to different views, we just have to add more `map` calls. Here is an example:
 
 ```java
-SmartAdapters.items(myObjectList)
+SmartAdapter.items(myObjectList)
     .map(Tweet.class, TweetView.class)
     .map(String.class, ListHeaderView.class)
     .map(User.class, UserView.class)
@@ -118,7 +118,7 @@ If we want to control any event in our view classes at the adapter level, we can
 For example:
 
 ```java
-SmartAdapters.items(myObjectList)
+SmartAdapter.items(myObjectList)
     .map(Tweet.class, TweetView.class)
     .listener(myViewListener)
     .into(myListView);
@@ -168,7 +168,7 @@ We can add it to the adapter like this:
 ```java
 Mapper mapper = new Mapper().add(Tweet.class, TweetView_.class);
 
-SmartAdapters.items(myObjectList)
+SmartAdapter.items(myObjectList)
     .mapper(mapper)
     .listener(myViewListener)
     .builder(new AABindableLayoutBuilder(mapper))
