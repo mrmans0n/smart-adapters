@@ -131,7 +131,7 @@ The listener would be like this:
 myViewListener = new ViewEventListener<MyObject>() {
     @Override
     public void onViewEvent(int actionId, MyObject item, View view) {
-
+        // actionId would be any constant value you used in notifyItemAction.
     }
 };
 ```
