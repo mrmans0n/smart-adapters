@@ -1,0 +1,119 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:1.1.0'
+        classpath 'org.robolectric:robolectric-gradle-plugin:1.0.1'
+    }
+}
+
+apply plugin: 'com.android.library'
+apply plugin: 'org.robolectric'
+apply plugin: 'maven-publish'
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+
+version '1.0.0-SNAPSHOT'
+group 'io.nlopez.smartadapers'
+
+robolectric {
+    include '**/*Test.class'
+}
+
+dependencies {
+    repositories {
+        mavenCentral()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+    }
+
+    compile 'com.android.support:recyclerview-v7:21.0.3'
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.robolectric:robolectric:3.0-SNAPSHOT'
+    testCompile 'org.robolectric:robolectric-shadows:3.0-SNAPSHOT'
+    testCompile 'org.mockito:mockito-core:1.9.5'
+}
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion '21.1.2'
+
+    defaultConfig {
+        minSdkVersion 11
+        targetSdkVersion 22
+        versionCode 20005
+        versionName version
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+
+}
+
+android.libraryVariants
+publishing {
+    publications {
+        maven(MavenPublication) {
+            artifact "build/libs/SmartAdapters-${version}.aar"
+            artifactId 'library'
+        }
+    }
+}
+
+def isReleaseBuild() {
+    return version.contains("SNAPSHOT") == false
+}
+
+signing {
+    required { isReleaseBuild() && gradle.taskGraph.hasTask("uploadArchives") }
+    sign configurations.archives
+}
+
+uploadArchives {
+    configuration = configurations.archives
+    repositories.mavenDeployer {
+        beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+        repository(url: sonatypeRepo) {
+            authentication(userName: sonatypeUsername,
+                    password: sonatypePassword)
+        }
+        snapshotRepository(url: sonatypeSnapshotRepo) {
+            authentication(userName: sonatypeUsername,
+                    password: sonatypePassword)
+        }
+
+        pom.project {
+            name 'Smart Adapters'
+            packaging 'aar'
+            description 'Easy and generic adapters for AbsListView and RecyclerView in Android'
+            url 'https://github.com/mrmans0n/smart-adapters'
+            artifactId 'library'
+
+            scm {
+                url 'scm:git@github.com:mrmans0n/smart-adapters.git'
+                connection 'scm:git@github.com:mrmans0n/smart-adapters.git'
+                developerConnection 'scm:git@github.com:mrmans0n/smart-adapters.git'
+            }
+
+            licenses {
+                license {
+                    name 'MIT license'
+                    url 'http://www.opensource.org/licenses/mit-license.php'
+                    distribution 'repo'
+                }
+            }
+
+            developers {
+                developer {
+                    id 'mrmans0n'
+                    name 'Nacho Lopez'
+                    email 'nacho@nlopez.io'
+                }
+            }
+        }
+    }
+}
