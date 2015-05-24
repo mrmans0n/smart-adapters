@@ -51,6 +51,7 @@ public class TweetView extends BindableLayout<Tweet> {
         // and so on!
     }
 }
+```
 
 A nice side effect is that we can pretty much switch back and forth to using ListView or RecyclerView without having to change anything in these views. We also got some more granular control over the events for those view widgets. We could pretty much add different onClick events to the row, to some button inside of it, etc.
 
@@ -72,8 +73,6 @@ We can notify the listener with some specific calls to be able to handle the eve
             }
         });
     }
-```
-
 ```
 
 ### Adapter creation
