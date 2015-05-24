@@ -21,6 +21,7 @@ import io.nlopez.smartadapters.views.BindableViewHolder;
 public class RecyclerMultiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     protected Map<Class, Class<? extends BindableLayout>> itemViewMapping;
+    protected Mapper mapper;
     protected List<Class> itemClassArray;
     protected List listItems;
     protected ViewEventListener viewEventListener;
@@ -33,13 +34,13 @@ public class RecyclerMultiAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     public RecyclerMultiAdapter(Mapper mapper, List listItems, BindableLayoutBuilder builder) {
         this.listItems = listItems;
-        this.itemViewMapping = mapper.asMap();
+        this.mapper = mapper;
         if (builder == null) {
             this.builder = createDefaultBuilder(mapper);
         } else {
             this.builder = builder;
         }
-        this.itemClassArray = new ArrayList<>(itemViewMapping.keySet());
+        this.itemClassArray = new ArrayList<>(mapper.asMap().keySet());
     }
 
     public void setItems(List items) {
@@ -108,11 +109,7 @@ public class RecyclerMultiAdapter extends RecyclerView.Adapter<RecyclerView.View
             return 0;
         }
         Object object = listItems.get(position);
-        int itemClassIndex = itemClassArray.indexOf(object.getClass());
-        if (itemClassIndex == -1) {
-            throw new RuntimeException("Object " + object.getClass().getCanonicalName() + " doesn't have an associated mapping");
-        }
-        return itemClassIndex;
+        return mapper.position(object.getClass());
     }
 
     @Override

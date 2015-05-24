@@ -6,9 +6,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import java.lang.reflect.Constructor;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import io.nlopez.smartadapters.utils.BindableLayoutBuilder;
 import io.nlopez.smartadapters.utils.Mapper;
@@ -19,7 +17,7 @@ import io.nlopez.smartadapters.views.BindableLayout;
 
 public class MultiAdapter extends BaseAdapter {
 
-    protected Map<Class, Class<? extends BindableLayout>> itemViewMapping;
+    protected Mapper mapper;
     protected List<Class> itemClassArray;
     protected List listItems;
     protected ViewEventListener viewEventListener;
@@ -31,13 +29,12 @@ public class MultiAdapter extends BaseAdapter {
 
     public MultiAdapter(Mapper mapper, List listItems, BindableLayoutBuilder builder) {
         this.listItems = listItems;
-        this.itemViewMapping = mapper.asMap();
+        this.mapper = mapper;
         if (builder == null) {
             this.builder = createDefaultBuilder(mapper);
         } else {
             this.builder = builder;
         }
-        this.itemClassArray = new ArrayList<>(itemViewMapping.keySet());
     }
 
     public void setItems(List items) {
@@ -90,13 +87,16 @@ public class MultiAdapter extends BaseAdapter {
             return 0;
         }
         Object object = getItem(position);
-        Class itemClass = itemViewMapping.get(object.getClass());
-        return itemViewMapping == null ? 0 : itemClassArray.indexOf(itemClass);
+        if (mapper.containsObjectClass(object.getClass())) {
+            return mapper.position(object.getClass());
+        } else {
+            return 0;
+        }
     }
 
     @Override
     public int getViewTypeCount() {
-        return itemViewMapping == null ? 0 : itemViewMapping.size();
+        return mapper.size();
     }
 
     @Override

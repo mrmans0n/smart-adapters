@@ -24,7 +24,7 @@ import io.nlopez.smartadapters.views.BindableLayout;
  * Managing class for SmartAdapters library.
  */
 public class SmartAdapters {
-    public static <T, Q extends BindableLayout<T>> SingleAdaptersCreator single(Class<Q> viewClass) {
+    public static <T, Q extends BindableLayout<T>> SingleAdaptersCreator<T,Q> single(Class<Q> viewClass) {
         return new SingleAdaptersCreator<>(viewClass);
     }
 
@@ -41,8 +41,8 @@ public class SmartAdapters {
             aa = false;
         }
 
-        public SingleAdaptersCreator<T, Q> items(@NonNull List elements) {
-            this.elements = (List<T>) elements;
+        public SingleAdaptersCreator<T, Q> items(@NonNull List<T> elements) {
+            this.elements = elements;
             return this;
         }
 
