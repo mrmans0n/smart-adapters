@@ -4,10 +4,15 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.ListView;
+
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import io.nlopez.smartadapters.SmartAdapters;
+import io.nlopez.smartadapters.sample.model.User;
+import io.nlopez.smartadapters.sample.util.DataGenerator;
+import io.nlopez.smartadapters.sample.view.UserView;
 
 public class SingleRecyclerViewActivity extends Activity {
 
@@ -24,8 +29,9 @@ public class SingleRecyclerViewActivity extends Activity {
     }
 
     private void initView() {
-        // TODO insert elements and blah blah
+        List<User> userList = DataGenerator.generateUsers(100);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        SmartAdapters.single(UserView.class).items(userList).into(recyclerView);
     }
 
 }

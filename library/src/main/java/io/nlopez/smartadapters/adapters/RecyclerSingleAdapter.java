@@ -30,7 +30,11 @@ public class RecyclerSingleAdapter<T, Q extends BindableLayout<T>> extends Recyc
     public RecyclerSingleAdapter(Class<Q> viewClass, List<T> listItems, BindableLayoutBuilder<T, Q> builder) {
         this.listItems = listItems;
         this.viewClass = viewClass;
-        this.builder = builder;
+        if (builder == null) {
+            this.builder = RecyclerSingleAdapter.createDefaultBuilder(viewClass);
+        } else {
+            this.builder = builder;
+        }
     }
 
     public void setItems(List<T> items) {

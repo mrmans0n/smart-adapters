@@ -34,7 +34,11 @@ public class RecyclerMultiAdapter extends RecyclerView.Adapter<RecyclerView.View
     public RecyclerMultiAdapter(Mapper mapper, List listItems, BindableLayoutBuilder builder) {
         this.listItems = listItems;
         this.itemViewMapping = mapper.asMap();
-        this.builder = builder;
+        if (builder == null) {
+            this.builder = createDefaultBuilder(mapper);
+        } else {
+            this.builder = builder;
+        }
         this.itemClassArray = new ArrayList<>(itemViewMapping.keySet());
     }
 
