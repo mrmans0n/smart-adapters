@@ -23,6 +23,43 @@ compile 'io.nlopez.smartadapters:library:1.0.0'
 Usage
 -----
 
+### Adapter creation
+
+If we got the typical list with one object mapped to one view, for example Tweet -> TweetView, it's as simple as this:
+
+```java
+SmartAdapters.single(TweetView.class, Tweet.class).items(myObjectList).into(myListView);
+```
+
+**Note** that we have to prepare a bit the view (TweetView in this case). Please read the "Preparing your view classes" section.
+
+If we need to do a more complex list, with different models mapped to different views, we can do it too. Here is an example:
+
+```java
+SmartAdapters.multi()
+    .map(Tweet.class, TweetView.class)
+    .map(String.class, ListHeaderView.class)
+    .map(User.class, UserView.class)
+    .items(myObjectList)
+    .into(myListView);
+```
+
+You can pass an AbsListView based control (ListView, GridView) or a RecyclerView to the `into` methods. The class will use the appropriate adapter class depending on which control you pass in there.
+
+The `items` method is optional. You can always add items later to the adapter and the classes will start with an empty array.
+
+The calls from before return the adapter, so if you want to store it for manipulating it afterwards you can do it. For example:
+
+```java
+SingleAdapter<TweetView, Tweet> adapter = SmartAdapters.single(TweetView.clas, Tweet.class).into(myListView);
+
+// We can add more stuff. The list will update and refresh its views.
+adapter.addItems(moreItems);
+
+// And delete it if we want!
+adapter.clearItems();
+```
+
 ### Preparing your view classes
 
 All your view classes must inherit BindableLayout<YourModelClass> so we got a common entrypoint for binding the model data to the view.
@@ -75,44 +112,29 @@ We can notify the listener with some specific calls to be able to handle the eve
     }
 ```
 
-### Adapter creation
+### Assigning listeners
 
-If we got the typical list with one object mapped to one view, for example Tweet -> TweetView, it's as simple as this:
+If we want to control any event in our view classes at the adapter level, we can do it. We just have to add a listener to the adapter, and it could be done when instantaiting it or after.
 
-```java
-SmartAdapters.single(TweetView.class, Tweet.class).items(myObjectList).into(myListView);
-```
-
-If we need to do a more complex list, with different models mapped to different views, we can do it too. Here is an example:
+For example:
 
 ```java
-SmartAdapters.multi()
-    .map(Tweet.class, TweetView.class)
-    .map(String.class, ListHeaderView.class)
-    .map(User.class, UserView.class)
+SmartAdapters.single(TweetView.class, Tweet.class)
+    .listener(myViewListener)
     .items(myObjectList)
     .into(myListView);
 ```
 
-You can pass an AbsListView based control (ListView, GridView) or a RecyclerView to the `into` methods. The class will use the appropriate adapter class depending on which control you pass in there.
-
-The `items` method is optional. You can always add items later to the adapter and the classes will start with an empty array.
-
-The calls from before return the adapter, so if you want to store it for manipulating it afterwards you can do it. For example:
+The listener would be like this:
 
 ```java
-SingleAdapter<TweetView, Tweet> adapter = SmartAdapters.single(TweetView.clas, Tweet.class).into(myListView);
+myViewListener = new ViewEventListener<MyObject>() {
+    @Override
+    public void onViewEvent(int actionId, MyObject item, View view) {
 
-// We can add more stuff. The list will update and refresh its views.
-adapter.addItems(moreItems);
-
-// And delete it if we want!
-adapter.clearItems();
+    }
+};
 ```
-
-### Assigning listeners
-
-TODO document this.
 
 ### Custom layout builders
 
