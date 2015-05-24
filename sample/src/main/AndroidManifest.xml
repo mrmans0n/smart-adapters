@@ -22,5 +22,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".SingleListViewActivity" />
+        <activity android:name=".MultiListViewActivity" />
+        <activity android:name=".SingleRecyclerViewActivity" />
+        <activity android:name=".MultiRecyclerViewActivity" />
     </application>
 </manifest>

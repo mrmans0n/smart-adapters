@@ -51,7 +51,7 @@ The `items` method is optional. You can always add items later to the adapter an
 The calls from before return the adapter, so if you want to store it for manipulating it afterwards you can do it. For example:
 
 ```java
-SingleAdapter<TweetView, Tweet> adapter = SmartAdapters.single(TweetView.clas, Tweet.class).into(myListView);
+SingleAdapter<TweetView, Tweet> adapter = SmartAdapters.single(TweetView.class).into(myListView);
 
 // We can add more stuff. The list will update and refresh its views.
 adapter.addItems(moreItems);
@@ -119,7 +119,7 @@ If we want to control any event in our view classes at the adapter level, we can
 For example:
 
 ```java
-SmartAdapters.single(TweetView.class, Tweet.class)
+SmartAdapters.single(TweetView.class)
     .listener(myViewListener)
     .items(myObjectList)
     .into(myListView);
@@ -128,21 +128,29 @@ SmartAdapters.single(TweetView.class, Tweet.class)
 The listener would be like this:
 
 ```java
-myViewListener = new ViewEventListener<MyObject>() {
+myViewListener = new ViewEventListener<Tweet>() {
     @Override
-    public void onViewEvent(int actionId, MyObject item, View view) {
+    public void onViewEvent(int actionId, Tweet item, View view) {
         // actionId would be any constant value you used in notifyItemAction.
     }
 };
 ```
 
-### Custom layout builders
-
-TODO document this.
-
 ### Android Annotations EViewGroup support
 
-TODO document this.
+Android Annotations generated @EViewGroup classes are instantiated by calling a static `.build()` method on the view class instead of using the constructor. In fact, if you used the constructor there, you would probably ended up getting a runtime exception.
+
+There is a flag in the library for supporting this automatically: `.aa(true)`. You have to use the generated class instead of the base class when performing the call.
+
+For example:
+
+```java
+SmartAdapters.single(TweetView_.class)
+    .listener(myViewListener)
+    .aa(true)
+    .items(myObjectList)
+    .into(myListView);
+```
 
 Contributing
 ------------
@@ -151,9 +159,9 @@ Forks, patches and other feedback are welcome.
 Creators
 --------
 
-Nacho López - Github [@mrmans0n](https://github.com/mrmans0n) Twitter [@mrmans0n](htttps://twitter.com/mrmans0n) Blog [nlopez.io](http://nlopez.io)
+Nacho López - Github [@mrmans0n](https://github.com/mrmans0n) - Twitter [@mrmans0n](https://twitter.com/mrmans0n) - Blog [nlopez.io](http://nlopez.io)
 
 License
 -------
 
-[Read here.](LICENSE)
+[Read here](LICENSE)

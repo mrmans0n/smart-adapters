@@ -71,9 +71,9 @@ public class RecyclerSingleAdapter<T, Q extends BindableLayout<T>> extends Recyc
         this.viewEventListener = viewEventListener;
     }
 
-    public void notifyAction(int actionId, T object, View view) {
+    public void notifyAction(int actionId, T object, int position, View view) {
         if (viewEventListener != null) {
-            viewEventListener.onViewEvent(actionId, object, view);
+            viewEventListener.onViewEvent(actionId, object, position, view);
         }
     }
 

@@ -74,9 +74,9 @@ public class MultiAdapter extends BaseAdapter {
         this.viewEventListener = viewEventListener;
     }
 
-    public void notifyAction(int actionId, Object object, View view) {
+    public void notifyAction(int actionId, Object object, int position, View view) {
         if (viewEventListener != null) {
-            viewEventListener.onViewEvent(actionId, object, view);
+            viewEventListener.onViewEvent(actionId, object, position, view);
         }
     }
 

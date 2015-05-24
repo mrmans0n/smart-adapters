@@ -7,14 +7,14 @@ import android.widget.AbsListView;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.nlopez.smartadapters.adapters.androidannotations.AAMultiAdapter;
-import io.nlopez.smartadapters.adapters.androidannotations.AARecyclerMultiAdapter;
-import io.nlopez.smartadapters.adapters.androidannotations.AARecyclerSingleAdapter;
-import io.nlopez.smartadapters.adapters.androidannotations.AASingleAdapter;
 import io.nlopez.smartadapters.adapters.MultiAdapter;
 import io.nlopez.smartadapters.adapters.RecyclerMultiAdapter;
 import io.nlopez.smartadapters.adapters.RecyclerSingleAdapter;
 import io.nlopez.smartadapters.adapters.SingleAdapter;
+import io.nlopez.smartadapters.adapters.androidannotations.AAMultiAdapter;
+import io.nlopez.smartadapters.adapters.androidannotations.AARecyclerMultiAdapter;
+import io.nlopez.smartadapters.adapters.androidannotations.AARecyclerSingleAdapter;
+import io.nlopez.smartadapters.adapters.androidannotations.AASingleAdapter;
 import io.nlopez.smartadapters.utils.BindableLayoutBuilder;
 import io.nlopez.smartadapters.utils.Mapper;
 import io.nlopez.smartadapters.utils.ViewEventListener;
@@ -24,42 +24,39 @@ import io.nlopez.smartadapters.views.BindableLayout;
  * Managing class for SmartAdapters library.
  */
 public class SmartAdapters {
-
-    public static <T, Q extends BindableLayout> SingleAdaptersCreator single(Class<Q> viewClass, Class<T> objectClass) {
-        return new SingleAdaptersCreator(viewClass, objectClass);
+    public static <T, Q extends BindableLayout> SingleAdaptersCreator single(Class<Q> viewClass) {
+        return new SingleAdaptersCreator<T, Q>(viewClass);
     }
 
     public static class SingleAdaptersCreator<T, Q extends BindableLayout<T>> {
-        private final Class<T> objectClass;
         private final Class<Q> viewClass;
         private List<T> elements;
         private boolean aa;
         private BindableLayoutBuilder<T, Q> builder;
         private ViewEventListener<T> listener;
 
-        public SingleAdaptersCreator(Class<Q> viewClass, Class<T> objectClass) {
+        public SingleAdaptersCreator(Class<Q> viewClass) {
             this.viewClass = viewClass;
-            this.objectClass = objectClass;
             elements = new ArrayList<>();
             aa = false;
         }
 
-        public SingleAdaptersCreator items(@NonNull List<T> elements) {
+        public SingleAdaptersCreator<T, Q> items(@NonNull List<T> elements) {
             this.elements = elements;
             return this;
         }
 
-        public SingleAdaptersCreator builder(BindableLayoutBuilder<T, Q> builder) {
+        public SingleAdaptersCreator<T, Q> builder(BindableLayoutBuilder<T, Q> builder) {
             this.builder = builder;
             return this;
         }
 
-        public SingleAdaptersCreator aa(boolean aa) {
+        public SingleAdaptersCreator<T, Q> aa(boolean aa) {
             this.aa = aa;
             return this;
         }
 
-        public SingleAdaptersCreator listener(@NonNull ViewEventListener<T> listener) {
+        public SingleAdaptersCreator<T, Q> listener(@NonNull ViewEventListener<T> listener) {
             this.listener = listener;
             return this;
         }

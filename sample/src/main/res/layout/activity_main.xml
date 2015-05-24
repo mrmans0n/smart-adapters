@@ -1,10 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:gravity="center"
-              android:orientation="vertical">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
+        <Button
+            android:id="@+id/single_listview_button"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_margin="16dp"
+            android:padding="16dp"
+            android:text="One cell type - ListView" />
 
-</LinearLayout>
+        <Button
+            android:id="@+id/single_recyclerview_button"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_margin="16dp"
+            android:padding="16dp"
+            android:text="One cell type - RecyclerView" />
+
+        <Button
+            android:id="@+id/multi_listview_button"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_margin="16dp"
+            android:padding="16dp"
+            android:text="Multiple cell types - ListView" />
+
+        <Button
+            android:id="@+id/multi_recyclerview_button"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_margin="16dp"
+            android:padding="16dp"
+            android:text="Multiple cell types - RecyclerView" />
+
+    </LinearLayout>
+</ScrollView>
