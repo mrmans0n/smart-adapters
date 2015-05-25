@@ -12,12 +12,10 @@ Formerly part of [nl-toolkit](https://github.com/mrmans0n/nl-toolkit).
 Adding to your project
 ----------------------
 
-**NOTE** The library is in heavy development at this time so it's possible it's still not available in central repositories. Also, the API is bound to be changing a lot for the time being.
-
-You should add this to your dependencies:
+Add this to your dependencies:
 
 ```groovy
-compile 'io.nlopez.smartadapters:library:1.0.0-SNAPSHOT'
+compile 'io.nlopez.smartadapters:library:1.0.0'
 ```
 
 Usage
