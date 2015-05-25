@@ -9,18 +9,15 @@ import io.nlopez.smartadapters.utils.Reflections;
 import io.nlopez.smartadapters.views.BindableLayout;
 
 /**
- * Created by mrm on 24/5/15.
+ * Basic layout builder for most of the cases. It handles the reflection caching so the impact
+ * done by it is very little.
  */
-public class DefaultBindableLayoutBuilder extends BindableLayoutBuilder {
-
-    public DefaultBindableLayoutBuilder(Mapper mapper) {
-        super(mapper);
-    }
+public class DefaultBindableLayoutBuilder implements BindableLayoutBuilder {
 
     @Override
-    public BindableLayout build(Context context, Class aClass, Object item) {
+    public BindableLayout build(Context context, Mapper mapper, Class aClass, Object item) {
         try {
-            Class viewClass = getMapper().asMap().get(aClass);
+            Class viewClass = mapper.get(aClass);
             Constructor constructor = Reflections.constructor(viewClass, Context.class);
             return (BindableLayout) constructor.newInstance(context);
         } catch (Exception e) {

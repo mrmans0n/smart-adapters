@@ -1,7 +1,5 @@
 package io.nlopez.smartadapters.utils;
 
-import android.util.SparseArray;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,7 +46,7 @@ public class Mapper {
 
     public Class fromPosition(int position) {
         if (!positionsInverse.containsKey(position)) {
-            throw new RuntimeException("Could not find position "+position);
+            throw new RuntimeException("Could not find position " + position);
         }
         return positionsInverse.get(position);
     }
@@ -59,6 +57,10 @@ public class Mapper {
 
     public boolean containsViewClass(Class<? extends BindableLayout> viewClass) {
         return mapping.containsValue(viewClass);
+    }
+
+    public Class<? extends BindableLayout> get(Class objectClass) {
+        return mapping.get(objectClass);
     }
 
     public int size() {

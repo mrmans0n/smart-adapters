@@ -21,14 +21,14 @@ public class MultiAdapter extends BaseAdapter {
     protected BindableLayoutBuilder builder;
 
     public MultiAdapter(Mapper mapper, List listItems) {
-        this(mapper, listItems, createDefaultBuilder(mapper));
+        this(mapper, listItems, createDefaultBuilder());
     }
 
     public MultiAdapter(Mapper mapper, List listItems, BindableLayoutBuilder builder) {
         this.listItems = listItems;
         this.mapper = mapper;
         if (builder == null) {
-            this.builder = createDefaultBuilder(mapper);
+            this.builder = createDefaultBuilder();
         } else {
             this.builder = builder;
         }
@@ -115,7 +115,7 @@ public class MultiAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         BindableLayout viewGroup = (BindableLayout) convertView;
         if (viewGroup == null) {
-            viewGroup = builder.build(parent.getContext(), getItem(position).getClass(), getItem(position));
+            viewGroup = builder.build(parent.getContext(), mapper, getItem(position).getClass(), getItem(position));
         }
 
         if (viewGroup != null) {
@@ -125,7 +125,7 @@ public class MultiAdapter extends BaseAdapter {
         return viewGroup;
     }
 
-    private static BindableLayoutBuilder createDefaultBuilder(final Mapper mapper) {
-        return new DefaultBindableLayoutBuilder(mapper);
+    private static BindableLayoutBuilder createDefaultBuilder() {
+        return new DefaultBindableLayoutBuilder();
     }
 }

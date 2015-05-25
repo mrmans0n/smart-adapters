@@ -6,7 +6,6 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import io.nlopez.smartadapters.builders.BindableLayoutBuilder;
 import io.nlopez.smartadapters.builders.DefaultBindableLayoutBuilder;
@@ -18,7 +17,6 @@ import io.nlopez.smartadapters.views.BindableViewHolder;
 
 public class RecyclerMultiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    protected Map<Class, Class<? extends BindableLayout>> itemViewMapping;
     protected Mapper mapper;
     protected List<Class> itemClassArray;
     protected List listItems;
@@ -27,14 +25,14 @@ public class RecyclerMultiAdapter extends RecyclerView.Adapter<RecyclerView.View
 
 
     public RecyclerMultiAdapter(Mapper mapper, List listItems) {
-        this(mapper, listItems, createDefaultBuilder(mapper));
+        this(mapper, listItems, createDefaultBuilder());
     }
 
     public RecyclerMultiAdapter(Mapper mapper, List listItems, BindableLayoutBuilder builder) {
         this.listItems = listItems;
         this.mapper = mapper;
         if (builder == null) {
-            this.builder = createDefaultBuilder(mapper);
+            this.builder = createDefaultBuilder();
         } else {
             this.builder = builder;
         }
@@ -87,7 +85,7 @@ public class RecyclerMultiAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        BindableLayout viewGroup = builder.build(parent.getContext(), mapper.fromPosition(viewType), null);
+        BindableLayout viewGroup = builder.build(parent.getContext(), mapper, mapper.fromPosition(viewType), null);
         return new BindableViewHolder(viewGroup);
     }
 
@@ -120,7 +118,7 @@ public class RecyclerMultiAdapter extends RecyclerView.Adapter<RecyclerView.View
         return listItems == null ? 0 : listItems.size();
     }
 
-    private static BindableLayoutBuilder createDefaultBuilder(final Mapper mapper) {
-        return new DefaultBindableLayoutBuilder(mapper);
+    private static BindableLayoutBuilder createDefaultBuilder() {
+        return new DefaultBindableLayoutBuilder();
     }
 }
