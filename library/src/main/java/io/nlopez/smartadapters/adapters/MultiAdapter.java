@@ -13,6 +13,9 @@ import io.nlopez.smartadapters.utils.ThreadHelper;
 import io.nlopez.smartadapters.utils.ViewEventListener;
 import io.nlopez.smartadapters.views.BindableLayout;
 
+/**
+ * Adapter for {@code AbsListView} based widgets
+ */
 public class MultiAdapter extends BaseAdapter {
 
     protected Mapper mapper;

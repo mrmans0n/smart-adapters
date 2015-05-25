@@ -15,6 +15,9 @@ import io.nlopez.smartadapters.utils.ViewEventListener;
 import io.nlopez.smartadapters.views.BindableLayout;
 import io.nlopez.smartadapters.views.BindableViewHolder;
 
+/**
+ * Adapter for {@code RecyclerView} based widgets
+ */
 public class RecyclerMultiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     protected Mapper mapper;

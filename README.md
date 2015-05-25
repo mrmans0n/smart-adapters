@@ -162,16 +162,23 @@ public class AABindableLayoutBuilder implements BindableLayoutBuilder {
 We can add it to the adapter like this:
 
 ```java
-Mapper mapper = new Mapper().add(Tweet.class, TweetView_.class);
-
 SmartAdapter.items(myObjectList)
-    .mapper(mapper)
+    .map(Tweet.class, TweetView_.class)
     .listener(myViewListener)
     .builder(new AABindableLayoutBuilder())
     .into(myListView);
 ```
 
 The idea behind this is that you can, given the object and its clas, create the view class by yourself and return to the adapter.
+
+Common issues
+-------------
+
+If you are already using RecyclerView in your project and have problems compiling, you can try setting the transitive property to false:
+
+compile ('io.nlopez.smartadapters:library:1.0.0') {
+    transitive = false
+}
 
 Contributing
 ------------
