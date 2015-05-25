@@ -3,9 +3,9 @@ Smart Adapters Library
 
 [![Build Status](https://travis-ci.org/mrmans0n/smart-adapters.svg?branch=master)](https://travis-ci.org/mrmans0n/smart-adapters)
 
-Android library project that intends to simplify the usage of Adapters for ListView/GridView and RecyclerView.
+Android library project that intends to simplify the usage of Adapters for ListView/GridView and RecyclerView. You won't have to code any boring adapter again!
 
-It helps to keep boilerplate to a minimum and adds the possibility of easily changing between BaseAdapter / RecyclerView.Adapter types without changing almost any code. It also allows painless usage of multiple models / view types for a
+It helps to keep boilerplate to a minimum and adds the possibility of easily changing between BaseAdapter / RecyclerView.Adapter adapter styles without changing any code. It also allows painless usage of multiple models / view types for the same list or grid - just add the different mappings between model objects and view objects.
 
 Formerly part of [nl-toolkit](https://github.com/mrmans0n/nl-toolkit).
 
