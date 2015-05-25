@@ -174,9 +174,11 @@ Common issues
 
 If you are already using RecyclerView in your project and have problems compiling, you can try setting the transitive property to false:
 
+```groovy
 compile ('io.nlopez.smartadapters:library:1.0.0') {
     transitive = false
 }
+```
 
 Contributing
 ------------
