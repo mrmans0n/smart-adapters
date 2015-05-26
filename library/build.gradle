@@ -16,7 +16,7 @@ apply plugin: 'signing'
 
 
 version '1.0.0'
-group 'io.nlopez.smartadapers'
+group 'io.nlopez.smartadapters'
 
 robolectric {
     include '**/*Test.class'
