@@ -5,11 +5,11 @@ import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import io.nlopez.smartadapters.utils.ViewEventListener;
 
-public abstract class BindableLayout<T> extends LinearLayout {
+public abstract class BindableLayout<T> extends RelativeLayout {
 
     protected ViewEventListener<T> viewEventListener;
     protected T item;
