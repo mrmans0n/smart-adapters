@@ -1,5 +1,6 @@
 package io.nlopez.smartadapters.adapters;
 
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -118,7 +119,7 @@ public class MultiAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         BindableLayout viewGroup = (BindableLayout) convertView;
         if (viewGroup == null) {
-            viewGroup = builder.build(parent.getContext(), mapper, getItem(position).getClass(), getItem(position));
+            viewGroup = builder.build(parent, mapper, getItem(position).getClass(), getItem(position));
         }
 
         if (viewGroup != null) {

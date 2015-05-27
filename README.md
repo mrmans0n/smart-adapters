@@ -143,12 +143,12 @@ Here we have an example of a custom BindableLayoutBuilder created for Android An
 public class AABindableLayoutBuilder implements BindableLayoutBuilder {
 
     @Override
-    public BindableLayout build(Context context, Mapper mapper, Class aClass, Object item) {
+    public BindableLayout build(ViewGroup parent, Mapper mapper, Class aClass, Object item) {
         try {
             Class modelClass = (item == null) ? aClass : item.getClass();
             Class viewClass = mapper.get(modelClass);
             Method method = Reflections.method(viewClass, "build", Context.class);
-            return (BindableLayout) method.invoke(null, context);
+            return (BindableLayout) method.invoke(null, parent.getContext());
         } catch (Exception e) {
             throw new RuntimeException("Something went wrong creating the views", e);
         }

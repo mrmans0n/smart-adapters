@@ -88,7 +88,7 @@ public class RecyclerMultiAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        BindableLayout viewGroup = builder.build(parent.getContext(), mapper, mapper.fromPosition(viewType), null);
+        BindableLayout viewGroup = builder.build(parent, mapper, mapper.fromPosition(viewType), null);
         return new BindableViewHolder(viewGroup);
     }
 

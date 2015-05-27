@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -43,7 +44,7 @@ public class UserView extends BindableLayout<User> {
     }
 
     public void initView(Context context) {
-        LayoutInflater.from(context).inflate(R.layout.view_user, this, true);
+        inflate(context, R.layout.view_user, (ViewGroup) getRootView());
         ButterKnife.inject(this);
     }
 

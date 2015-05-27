@@ -1,9 +1,11 @@
 package io.nlopez.smartadapters.sample.view;
 
 import android.content.Context;
+import android.text.Layout;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -43,7 +45,7 @@ public class PlaceView extends BindableLayout<Place> {
     }
 
     public void initView(Context context) {
-        LayoutInflater.from(context).inflate(R.layout.view_place, this, true);
+        inflate(context, R.layout.view_place, (ViewGroup) getRootView());
         ButterKnife.inject(this);
     }
 
