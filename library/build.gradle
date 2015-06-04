@@ -28,11 +28,12 @@ dependencies {
         maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
     }
 
-    compile 'com.android.support:recyclerview-v7:21.0.3'
+    compile 'com.android.support:recyclerview-v7:22.2.0'
     testCompile 'junit:junit:4.12'
     testCompile 'org.robolectric:robolectric:3.0-SNAPSHOT'
     testCompile 'org.robolectric:robolectric-shadows:3.0-SNAPSHOT'
     testCompile 'org.mockito:mockito-core:1.9.5'
+    testCompile 'org.assertj:assertj-core:1.7.1'
 }
 
 android {

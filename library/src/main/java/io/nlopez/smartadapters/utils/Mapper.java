@@ -10,7 +10,7 @@ import io.nlopez.smartadapters.views.BindableLayout;
  */
 public class Mapper {
 
-    // TODO switch this implementation to use a LinkedHashMap instead
+    // TODO this is a mess - switch this implementation to use a LinkedHashMap instead
     private Map<Class, Class<? extends BindableLayout>> mapping;
     private Map<Class, Integer> positions;
     private Map<Integer, Class> positionsInverse;
@@ -31,6 +31,9 @@ public class Mapper {
      * @return this, so you can chain calls
      */
     public Mapper add(Class objectClass, Class<? extends BindableLayout> viewClass) {
+        if (containsObjectClass(objectClass)) {
+            throw new AssertionError("Can't repeat object classes in the mapping");
+        }
         mapping.put(objectClass, viewClass);
         positions.put(objectClass, current);
         positionsInverse.put(current, objectClass);
