@@ -20,7 +20,7 @@ import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 /**
- * Created by mrm on 4/6/15.
+ * Tests default builder
  */
 public class DefaultBindableLayoutBuilderTest {
 
