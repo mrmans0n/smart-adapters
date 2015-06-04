@@ -10,6 +10,8 @@ import io.nlopez.smartadapters.views.BindableLayout;
  */
 public class MockLayout2 extends BindableLayout<MockModel> {
 
+    public boolean fromBuild = false;
+
     public MockLayout2(Context context) {
         super(context);
     }
@@ -22,7 +24,11 @@ public class MockLayout2 extends BindableLayout<MockModel> {
         super(context, attrs, defStyle);
     }
 
-
+    public static MockLayout2 build(Context context) {
+        MockLayout2 layout = new MockLayout2(context);
+        layout.fromBuild = true;
+        return layout;
+    }
 
     @Override
     public void bind(MockModel item) {

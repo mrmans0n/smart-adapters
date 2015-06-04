@@ -1,7 +1,5 @@
 package io.nlopez.smartadapters.utils;
 
-import android.text.TextUtils;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -35,7 +33,7 @@ public class Reflections {
             paramClassNames.add(c.getCanonicalName());
         }
 
-        final String fullName = clazz.getCanonicalName() + "." + name + "(" + TextUtils.join("+", paramClassNames) + ")";
+        final String fullName = clazz.getCanonicalName() + "." + name + "(" + join("+", paramClassNames) + ")";
         if (!methods.containsKey(fullName)) {
             Method method = clazz.getMethod(name, params);
             methods.put(fullName, method);
@@ -61,5 +59,22 @@ public class Reflections {
         }
 
         return constructors.get(clazz);
+    }
+
+    /**
+     * Taken from Android's TextUtils.
+     */
+    private static String join(CharSequence delimiter, Iterable tokens) {
+        StringBuilder sb = new StringBuilder();
+        boolean firstTime = true;
+        for (Object token : tokens) {
+            if (firstTime) {
+                firstTime = false;
+            } else {
+                sb.append(delimiter);
+            }
+            sb.append(token);
+        }
+        return sb.toString();
     }
 }

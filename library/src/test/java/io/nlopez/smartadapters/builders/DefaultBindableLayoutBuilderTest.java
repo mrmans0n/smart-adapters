@@ -22,12 +22,8 @@ import static org.mockito.Mockito.when;
 /**
  * Created by mrm on 4/6/15.
  */
-public class AABindableLayoutBuilderTest {
+public class DefaultBindableLayoutBuilderTest {
 
-    @Mock
-    MockLayout2 mockLayout2;
-
-    MockModel2 mockModel2;
     MockModel mockModel;
 
     @Mock
@@ -43,29 +39,21 @@ public class AABindableLayoutBuilderTest {
                 .add(MockModel2.class, MockLayout2.class);
 
         mockModel = new MockModel();
-        mockModel2 = new MockModel2();
 
         when(parent.getContext()).thenReturn(RuntimeEnvironment.application);
     }
 
     @Test
     public void test_build() {
-        AABindableLayoutBuilder builder = new AABindableLayoutBuilder();
-        BindableLayout bindableLayout = builder.build(parent, mapper, MockModel2.class, mockModel2);
-        assertNotNull(bindableLayout);
-        MockLayout2 mockLayout = (MockLayout2) bindableLayout;
-        assertTrue(mockLayout.fromBuild);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void test_crash_if_not_aa() {
-        AABindableLayoutBuilder builder = new AABindableLayoutBuilder();
+        DefaultBindableLayoutBuilder builder = new DefaultBindableLayoutBuilder();
         BindableLayout bindableLayout = builder.build(parent, mapper, MockModel.class, mockModel);
+        assertNotNull(bindableLayout);
+        assertTrue(bindableLayout instanceof MockLayout);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void test_crash_if_unknown_view_class() {
-        AABindableLayoutBuilder builder = new AABindableLayoutBuilder();
-        BindableLayout bindableLayout = builder.build(parent, mapper, AABindableLayoutBuilder.class, mockModel);
+        DefaultBindableLayoutBuilder builder = new DefaultBindableLayoutBuilder();
+        BindableLayout bindableLayout = builder.build(parent, mapper, DefaultBindableLayoutBuilder.class, mockModel);
     }
 }
