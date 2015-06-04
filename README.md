@@ -167,7 +167,7 @@ SmartAdapter.items(myObjectList)
     .into(myListView);
 ```
 
-The idea behind this is that you can, given the object and its clas, create the view class by yourself and return to the adapter.
+The idea behind this is that you can, given the object and its class, create the view class by yourself and return to the adapter.
 
 Common issues
 -------------

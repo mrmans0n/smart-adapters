@@ -25,7 +25,7 @@ public class SmartAdapter {
      * @param items model list to be displayed in the listing
      * @return fluid interface for more settings
      */
-    public static MultiAdaptersCreator items(List<?> items) {
+    public static MultiAdaptersCreator items(@NonNull List<?> items) {
         return new MultiAdaptersCreator(items);
     }
 
