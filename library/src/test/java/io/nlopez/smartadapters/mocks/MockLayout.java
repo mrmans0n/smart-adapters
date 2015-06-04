@@ -6,7 +6,7 @@ import android.util.AttributeSet;
 import io.nlopez.smartadapters.views.BindableLayout;
 
 /**
- * Created by mrm on 4/6/15.
+ * Simple view layout
  */
 public class MockLayout extends BindableLayout<MockModel> {
 
