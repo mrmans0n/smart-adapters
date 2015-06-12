@@ -1,7 +1,7 @@
 Smart Adapters Library
 ======================
 
-[![Build Status](https://travis-ci.org/mrmans0n/smart-adapters.svg?branch=master)](https://travis-ci.org/mrmans0n/smart-adapters)
+[![Build Status](https://travis-ci.org/mrmans0n/smart-adapters.svg?branch=master)](https://travis-ci.org/mrmans0n/smart-adapters) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-smart--adapters-green.svg?style=flat)](https://android-arsenal.com/details/1/1967)
 
 Android library project that intends to simplify the usage of Adapters for ListView/GridView and RecyclerView. You won't have to code any boring adapter again!
 
