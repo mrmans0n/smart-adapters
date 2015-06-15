@@ -3,8 +3,12 @@ package io.nlopez.smartadapters.views;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
+import android.support.annotation.CallSuper;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import io.nlopez.smartadapters.utils.ViewEventListener;
@@ -17,21 +21,37 @@ public abstract class BindableLayout<T> extends RelativeLayout {
 
     public BindableLayout(Context context) {
         super(context);
+        initView(context);
     }
 
     public BindableLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
+        initView(context);
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public BindableLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        initView(context);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public BindableLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
+        initView(context);
     }
+
+    public void initView(Context context) {
+        inflate(context, getLayoutId(), this);
+        onViewInflated();
+    }
+
+    public void onViewInflated() {
+
+    }
+
+    @LayoutRes
+    public abstract int getLayoutId();
 
     public void bind(T item, int position) {
         this.item = item;
@@ -41,6 +61,7 @@ public abstract class BindableLayout<T> extends RelativeLayout {
 
     public abstract void bind(T item);
 
+    @Nullable
     public ViewEventListener<T> getViewEventListener() {
         return viewEventListener;
     }
