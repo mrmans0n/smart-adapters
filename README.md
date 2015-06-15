@@ -29,7 +29,7 @@ If we got the typical list with one object mapped to one view, for example Tweet
 SmartAdapter.items(myObjectList).map(Tweet.class, TweetView.class).into(myListView);
 ```
 
-**Note** that we have to prepare a bit the view (TweetView in this case). Please read the "Preparing your view classes" section.
+**Note** that we have to prepare a bit the view (TweetView in this case). Please read the ["Preparing your view classes"](#preparing-your-view-classes) section.
 
 If we need to do a more complex list, with different models mapped to different views, we just have to add more `map` calls. Here is an example:
 
