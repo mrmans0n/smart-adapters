@@ -40,7 +40,10 @@ public abstract class BindableLayout<T> extends RelativeLayout {
     }
 
     public void initView(Context context) {
-        inflate(context, getLayoutId(), this);
+        int layoutId = getLayoutId();
+        if (layoutId != 0) {
+            inflate(context, layoutId, this);
+        }
         onViewInflated();
     }
 

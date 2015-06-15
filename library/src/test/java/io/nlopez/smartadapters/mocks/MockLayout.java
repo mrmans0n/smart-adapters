@@ -1,7 +1,6 @@
 package io.nlopez.smartadapters.mocks;
 
 import android.content.Context;
-import android.util.AttributeSet;
 
 import io.nlopez.smartadapters.views.BindableLayout;
 
@@ -14,12 +13,9 @@ public class MockLayout extends BindableLayout<MockModel> {
         super(context);
     }
 
-    public MockLayout(Context context, AttributeSet attrs) {
-        super(context, attrs);
-    }
-
-    public MockLayout(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
+    @Override
+    public int getLayoutId() {
+        return 0;
     }
 
     @Override
