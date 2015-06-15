@@ -28,6 +28,11 @@ public abstract class BindableLayout<T> extends RelativeLayout {
         super(context, attrs, defStyle);
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public BindableLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
+    }
+
     public void bind(T item, int position) {
         this.item = item;
         this.position = position;
