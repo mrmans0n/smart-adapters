@@ -15,7 +15,7 @@ Adding to your project
 Add this to your dependencies:
 
 ```groovy
-compile 'io.nlopez.smartadapters:library:1.0.1'
+compile 'io.nlopez.smartadapters:library:1.1.0'
 ```
 
 Usage
@@ -64,14 +64,24 @@ All your view classes must inherit BindableLayout<YourModelClass> so we got a co
 ```java
 public class TweetView extends BindableLayout<Tweet> {
 
+    // [...]
+
     public TweetView(Context context) {
+        // This is the constructor that should be implemented, because it's the one used internally
+        // by the default builder.
         super(context);
-        initView();
     }
 
-    public void initView() {
-        // Here we should assign the layout, inflate the views (or use butterknife or something similar), etc.
-        // [...]
+    @Override
+    public int getLayoutId() {
+        // This is mandatory, and should return the id for the view layout of this view
+        return R.layout.view_tweet;
+    }
+
+    @Override
+    public void onViewInflated() {
+        // Here we should assign the views or use ButterKnife
+        ButterKnife.inject(this);
     }
 
     @Override
@@ -86,6 +96,8 @@ public class TweetView extends BindableLayout<Tweet> {
     }
 }
 ```
+
+I use an Android Studio template for creating the BindableLayouts. You can [find it here](https://gist.github.com/mrmans0n/0999fafdc1dd563411fd).
 
 A nice side effect is that we can pretty much switch back and forth to using ListView or RecyclerView without having to change anything in these views. We also got some more granular control over the events for those view widgets. We could pretty much add different onClick events to the row, to some button inside of it, etc.
 
@@ -175,7 +187,7 @@ Common issues
 If you are already using RecyclerView in your project and have problems compiling, you can try setting the transitive property to false:
 
 ```groovy
-compile ('io.nlopez.smartadapters:library:1.0.1') {
+compile ('io.nlopez.smartadapters:library:1.1.0') {
     transitive = false
 }
 ```
