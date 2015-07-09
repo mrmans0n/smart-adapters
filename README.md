@@ -149,20 +149,25 @@ myViewListener = new ViewEventListener<Tweet>() {
 
 If we want to display different cells depending on the data of a single model or something more convoluted, we can specify our own BindableLayoutBuilder interface for the classes to be instantiated.
 
-Here we have an example of a custom BindableLayoutBuilder created for Android Annotations support (which is included in the library as well):
+Here we have an example of a custom BindableLayoutBuilder created for a hypothetical case where the view class depends on the values of the object.
 
 ```java
-public class AABindableLayoutBuilder implements BindableLayoutBuilder {
+public class TweetBindableLayoutBuilder implements BindableLayoutBuilder {
 
     @Override
     public BindableLayout build(ViewGroup parent, Mapper mapper, Class aClass, Object item) {
-        try {
-            Class modelClass = (item == null) ? aClass : item.getClass();
-            Class viewClass = mapper.get(modelClass);
-            Method method = Reflections.method(viewClass, "build", Context.class);
-            return (BindableLayout) method.invoke(null, parent.getContext());
-        } catch (Exception e) {
-            throw new RuntimeException("Something went wrong creating the views", e);
+        // parent = the parent, Mapper = object -> view mapper defined in the SmartAdapters invocation
+        // aClass = current model (item) class, item = current object
+        
+        Tweet tweet = (Tweet) item;
+        if (tweet.hasGallery()) {
+            return new TweetGalleryView(parent.getContext());
+        } else if (tweet.hasImage()) {
+            return new TweetImageView(parent.getContext());
+        } else if (tweet.hasEmbeds()) {
+            return new TweetEmbedView(parent.getContext());
+        } else {
+            return new TweetView(parent.getContext());
         }
     }
 }
@@ -173,13 +178,15 @@ We can add it to the adapter like this:
 
 ```java
 SmartAdapter.items(myObjectList)
-    .map(Tweet.class, TweetView_.class)
     .listener(myViewListener)
-    .builder(new AABindableLayoutBuilder())
+    .builder(new TweetBindableLayoutBuilder())
     .into(myListView);
 ```
+Please note that the mapper can be ignored if we want that, because it is handled in the default builders or if you want to handle it yourself, but it's not mandatory. 
 
-The idea behind this is that you can, given the object and its class, create the view class by yourself and return to the adapter.
+You can check more examples [in the default builders included with the library](https://github.com/mrmans0n/smart-adapters/tree/master/library/src/main/java/io/nlopez/smartadapters/builders). 
+
+The idea behind the builders is that you can, given the object and its class, create the view class by yourself and return to the adapter.
 
 Common issues
 -------------
