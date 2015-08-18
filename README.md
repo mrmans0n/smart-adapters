@@ -182,7 +182,6 @@ SmartAdapter.items(myObjectList)
     .builder(new TweetBindableLayoutBuilder())
     .into(myListView);
 ```
-Please note that the mapper can be ignored if we want that, because it is handled in the default builders or if you want to handle it yourself, but it's not mandatory. 
 
 You can check more examples [in the default builders included with the library](https://github.com/mrmans0n/smart-adapters/tree/master/library/src/main/java/io/nlopez/smartadapters/builders). 
 
