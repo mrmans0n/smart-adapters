@@ -19,6 +19,10 @@ import io.nlopez.smartadapters.views.BindableLayout;
  */
 public class SmartAdapter {
 
+    private SmartAdapter() {
+
+    }
+
     /**
      * Include the object list that is going to be represented in our collection view.
      *
