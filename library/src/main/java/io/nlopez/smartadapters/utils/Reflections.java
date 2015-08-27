@@ -13,7 +13,7 @@ import java.util.Map;
 public class Reflections {
 
     private static Map<String, Method> methods = new HashMap<>();
-    private static Map<Class, Constructor> constructors = new HashMap<>();
+    private static Map<String, Constructor> constructors = new HashMap<>();
 
     /**
      * Returns the {@code Method}  present on the class provided by clazz, with the name given on the name
@@ -53,12 +53,18 @@ public class Reflections {
      * @throws NoSuchMethodException
      */
     public static Constructor constructor(Class clazz, Class<?>... params) throws NoSuchMethodException {
-        if (!constructors.containsKey(clazz)) {
+        List<String> paramClassNames = new ArrayList<>();
+        for (Class<?> c : params) {
+            paramClassNames.add(c.getCanonicalName());
+        }
+        final String fullName = clazz.getCanonicalName() + "(" + join("+", paramClassNames) + ")";
+
+        if (!constructors.containsKey(fullName)) {
             Constructor constructor = clazz.getConstructor(params);
-            constructors.put(clazz, constructor);
+            constructors.put(fullName, constructor);
         }
 
-        return constructors.get(clazz);
+        return constructors.get(fullName);
     }
 
     /**
