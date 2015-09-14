@@ -40,5 +40,13 @@
             android:padding="16dp"
             android:text="Multiple cell types - RecyclerView" />
 
+        <Button
+            android:id="@+id/multi_recyclerview_custom_builder_button"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_margin="16dp"
+            android:padding="16dp"
+            android:text="Multiple cell types - RecyclerView w/ Custom Builder" />
+
     </LinearLayout>
 </ScrollView>
