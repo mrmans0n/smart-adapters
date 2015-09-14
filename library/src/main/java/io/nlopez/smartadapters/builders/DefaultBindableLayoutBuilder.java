@@ -43,6 +43,9 @@ public class DefaultBindableLayoutBuilder implements BindableLayoutBuilder {
     protected Class<? extends BindableLayout> getViewClass(Class objectClass, Object item) {
         Class ourClass = (item == null) ? objectClass : item.getClass();
         List<Class<? extends BindableLayout>> classes = mapper.get(ourClass);
+        if (classes == null) {
+            throw new IllegalArgumentException("Object class " + ourClass + "not found in mapper");
+        }
         if (classes.size() == 1) {
             return classes.get(0);
         } else if (classes.size() > 1) {

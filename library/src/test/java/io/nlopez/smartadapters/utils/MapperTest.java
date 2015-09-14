@@ -1,13 +1,13 @@
 package io.nlopez.smartadapters.utils;
 
+import android.util.ArrayMap;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import io.nlopez.smartadapters.CustomTestRunner;
 import io.nlopez.smartadapters.mocks.MockLayout;
-import io.nlopez.smartadapters.mocks.MockLayout2;
 import io.nlopez.smartadapters.mocks.MockModel;
-import io.nlopez.smartadapters.mocks.MockModel2;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
@@ -28,7 +28,7 @@ public class MapperTest {
         mapper.add(MockModel.class, MockLayout.class);
         assertThat(mapper.asMap())
                 .hasSize(1)
-                .containsExactly(entry(MockModel.class, MockLayout.class));
+                .containsExactly(entry(MockModel.class, ArrayMap.class));
         assertEquals(mapper.objectClasses(), 1);
         assertTrue(mapper.containsObjectClass(MockModel.class));
         assertTrue(mapper.containsViewClass(MockLayout.class));

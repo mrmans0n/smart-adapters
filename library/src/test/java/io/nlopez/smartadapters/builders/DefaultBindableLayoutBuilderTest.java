@@ -45,15 +45,15 @@ public class DefaultBindableLayoutBuilderTest {
 
     @Test
     public void test_build() {
-        DefaultBindableLayoutBuilder builder = new DefaultBindableLayoutBuilder();
-        BindableLayout bindableLayout = builder.build(parent, MockModel.class, mockModel, mapper);
+        DefaultBindableLayoutBuilder builder = new DefaultBindableLayoutBuilder(mapper);
+        BindableLayout bindableLayout = builder.build(parent, MockModel.class, mockModel);
         assertNotNull(bindableLayout);
         assertTrue(bindableLayout instanceof MockLayout);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void test_crash_if_unknown_view_class() {
-        DefaultBindableLayoutBuilder builder = new DefaultBindableLayoutBuilder();
-        BindableLayout bindableLayout = builder.build(parent, DefaultBindableLayoutBuilder.class, mockModel, mapper);
+        DefaultBindableLayoutBuilder builder = new DefaultBindableLayoutBuilder(mapper);
+        BindableLayout bindableLayout = builder.build(parent, DefaultBindableLayoutBuilder.class, null);
     }
 }
