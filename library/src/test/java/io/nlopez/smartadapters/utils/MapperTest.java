@@ -24,12 +24,12 @@ public class MapperTest {
     public void test_add() {
         Mapper mapper = new Mapper();
         assertThat(mapper.asMap()).hasSize(0);
-        assertEquals(mapper.size(), 0);
+        assertEquals(mapper.objectClasses(), 0);
         mapper.add(MockModel.class, MockLayout.class);
         assertThat(mapper.asMap())
                 .hasSize(1)
                 .containsExactly(entry(MockModel.class, MockLayout.class));
-        assertEquals(mapper.size(), 1);
+        assertEquals(mapper.objectClasses(), 1);
         assertTrue(mapper.containsObjectClass(MockModel.class));
         assertTrue(mapper.containsViewClass(MockLayout.class));
     }
@@ -46,19 +46,5 @@ public class MapperTest {
         Mapper mapper = new Mapper();
         mapper.add(MockModel.class, MockLayout.class);
         assertEquals(mapper.get(MockModel.class), MockLayout.class);
-    }
-
-    @Test
-    public void test_positions() {
-        Mapper mapper = new Mapper();
-        mapper.add(MockModel.class, MockLayout.class);
-        assertEquals(mapper.position(MockModel.class), 0);
-        assertEquals(mapper.fromPosition(0), MockModel.class);
-
-        mapper.add(MockModel2.class, MockLayout2.class);
-        assertEquals(mapper.position(MockModel.class), 0);
-        assertEquals(mapper.fromPosition(0), MockModel.class);
-        assertEquals(mapper.position(MockModel2.class), 1);
-        assertEquals(mapper.fromPosition(1), MockModel2.class);
     }
 }

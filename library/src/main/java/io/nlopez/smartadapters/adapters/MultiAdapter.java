@@ -24,14 +24,14 @@ public class MultiAdapter extends BaseAdapter {
     protected BindableLayoutBuilder builder;
 
     public MultiAdapter(Mapper mapper, List listItems) {
-        this(mapper, listItems, createDefaultBuilder());
+        this(mapper, listItems, createDefaultBuilder(mapper));
     }
 
     public MultiAdapter(Mapper mapper, List listItems, BindableLayoutBuilder builder) {
         this.listItems = listItems;
         this.mapper = mapper;
         if (builder == null) {
-            this.builder = createDefaultBuilder();
+            this.builder = createDefaultBuilder(mapper);
         } else {
             this.builder = builder;
         }
@@ -87,16 +87,12 @@ public class MultiAdapter extends BaseAdapter {
             return 0;
         }
         Object object = getItem(position);
-        if (mapper.containsObjectClass(object.getClass())) {
-            return mapper.position(object.getClass());
-        } else {
-            return 0;
-        }
+        return builder.viewType(object, position);
     }
 
     @Override
     public int getViewTypeCount() {
-        return mapper.size();
+        return mapper.viewSize();
     }
 
     @Override
@@ -118,7 +114,7 @@ public class MultiAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         BindableLayout viewGroup = (BindableLayout) convertView;
         if (viewGroup == null) {
-            viewGroup = builder.build(parent, mapper, getItem(position).getClass(), getItem(position));
+            viewGroup = builder.build(parent, getItem(position).getClass(), getItem(position));
         }
 
         if (viewGroup != null) {
@@ -128,7 +124,7 @@ public class MultiAdapter extends BaseAdapter {
         return viewGroup;
     }
 
-    private static BindableLayoutBuilder createDefaultBuilder() {
-        return new DefaultBindableLayoutBuilder();
+    private static BindableLayoutBuilder createDefaultBuilder(Mapper mapper) {
+        return new DefaultBindableLayoutBuilder(mapper);
     }
 }

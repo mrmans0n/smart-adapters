@@ -17,16 +17,16 @@ import io.nlopez.smartadapters.views.BindableLayout;
  * Those classes are build by calling a static build(Context) method so that's what we need to do
  * in order to create properly those elements.
  */
-public class AABindableLayoutBuilder implements BindableLayoutBuilder {
+public class AABindableLayoutBuilder extends DefaultBindableLayoutBuilder {
+
+    public AABindableLayoutBuilder(Mapper mapper) {
+        super(mapper);
+    }
 
     @Override
-    public BindableLayout build(@NonNull ViewGroup parent, @NonNull Mapper mapper, @NonNull Class aClass, Object item) {
+    public BindableLayout build(@NonNull ViewGroup parent, @NonNull Class aClass, Object item) {
+        Class<? extends BindableLayout> viewClass = getViewClass(aClass, item);
         try {
-            Class modelClass = (item == null) ? aClass : item.getClass();
-            Class viewClass = mapper.get(modelClass);
-            if (viewClass == null) {
-                throw new IllegalArgumentException("View class not found for model");
-            }
             Method method = Reflections.method(viewClass, "build", Context.class);
             return (BindableLayout) method.invoke(null, parent.getContext());
         } catch (NoSuchMethodException e) {

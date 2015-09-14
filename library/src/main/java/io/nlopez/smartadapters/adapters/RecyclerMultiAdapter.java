@@ -28,18 +28,18 @@ public class RecyclerMultiAdapter extends RecyclerView.Adapter<RecyclerView.View
 
 
     public RecyclerMultiAdapter(Mapper mapper, List listItems) {
-        this(mapper, listItems, createDefaultBuilder());
+        this(mapper, listItems, createDefaultBuilder(mapper));
     }
 
     public RecyclerMultiAdapter(Mapper mapper, List listItems, BindableLayoutBuilder builder) {
         this.listItems = listItems;
         this.mapper = mapper;
         if (builder == null) {
-            this.builder = createDefaultBuilder();
+            this.builder = createDefaultBuilder(mapper);
         } else {
             this.builder = builder;
         }
-        this.itemClassArray = new ArrayList<>(mapper.asMap().keySet());
+        this.itemClassArray = new ArrayList<>(mapper.objectClasses());
     }
 
     public void setItems(List items) {
@@ -88,7 +88,7 @@ public class RecyclerMultiAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        BindableLayout viewGroup = builder.build(parent, mapper, mapper.fromPosition(viewType), null);
+        BindableLayout viewGroup = builder.build(parent, mapper.objectFromViewType(viewType), null);
         return new BindableViewHolder(viewGroup);
     }
 
@@ -108,7 +108,7 @@ public class RecyclerMultiAdapter extends RecyclerView.Adapter<RecyclerView.View
             return 0;
         }
         Object object = listItems.get(position);
-        return mapper.position(object.getClass());
+        return builder.viewType(object, position);
     }
 
     @Override
@@ -121,7 +121,7 @@ public class RecyclerMultiAdapter extends RecyclerView.Adapter<RecyclerView.View
         return listItems == null ? 0 : listItems.size();
     }
 
-    private static BindableLayoutBuilder createDefaultBuilder() {
-        return new DefaultBindableLayoutBuilder();
+    private static BindableLayoutBuilder createDefaultBuilder(Mapper mapper) {
+        return new DefaultBindableLayoutBuilder(mapper);
     }
 }
