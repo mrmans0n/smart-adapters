@@ -16,16 +16,11 @@ import io.nlopez.smartadapters.views.BindableLayout;
  * done by it is very little.
  */
 public class DefaultBindableLayoutBuilder implements BindableLayoutBuilder {
-    protected Mapper mapper;
-
-    public DefaultBindableLayoutBuilder(Mapper mapper) {
-        this.mapper = mapper;
-    }
 
     @Override
-    public BindableLayout build(@NonNull ViewGroup parent, @NonNull Class aClass, Object item) {
+    public BindableLayout build(@NonNull ViewGroup parent, int viewType, Object item, Mapper mapper) {
 
-        Class viewClass = getViewClass(aClass, item);
+        Class<? extends BindableLayout> viewClass = mapper.viewClassFromViewType(viewType);
         try {
             Constructor constructor = Reflections.constructor(viewClass, Context.class);
             return (BindableLayout) constructor.newInstance(parent.getContext());
@@ -35,24 +30,17 @@ public class DefaultBindableLayoutBuilder implements BindableLayoutBuilder {
     }
 
     @Override
-    public int viewType(@NonNull Object item, int position) {
-        Class<? extends BindableLayout> viewClass = getViewClass(item.getClass(), item);
-        return Mapper.viewTypeFromViewClass(viewClass);
-    }
-
-    protected Class<? extends BindableLayout> getViewClass(Class objectClass, Object item) {
-        Class ourClass = (item == null) ? objectClass : item.getClass();
-        List<Class<? extends BindableLayout>> classes = mapper.get(ourClass);
+    public int viewType(@NonNull Object item, int position, Mapper mapper) {
+        List<Class<? extends BindableLayout>> classes = mapper.get(item.getClass());
         if (classes == null) {
-            throw new IllegalArgumentException("Object class " + ourClass + "not found in mapper");
+            throw new IllegalArgumentException("Object class " + item.getClass() + "not found in mapper");
         }
         if (classes.size() == 1) {
-            return classes.get(0);
+            return Mapper.viewTypeFromViewClass(classes.get(0));
         } else if (classes.size() > 1) {
             throw new RuntimeException("There are more than 1 view classes associated to the same object class. Please write a custom BindableLayoutBuilder for this case.");
         } else {
             throw new RuntimeException("There are no view classes associated to the object class.");
         }
-
     }
 }

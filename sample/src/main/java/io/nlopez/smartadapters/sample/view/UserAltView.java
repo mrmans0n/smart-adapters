@@ -31,7 +31,7 @@ public class UserAltView extends BindableLayout<User> {
 
     @Override
     public int getLayoutId() {
-        return R.layout.view_user;
+        return R.layout.view_user_alt;
     }
 
     @Override

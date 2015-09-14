@@ -23,7 +23,7 @@ import io.nlopez.smartadapters.views.BindableLayout;
 public class Mapper {
     private Map<Class, List<Class<? extends BindableLayout>>> mapping;
     private Set<Class<? extends BindableLayout>> cachedViewClasses;
-    private SparseArray<Class> viewTypes;
+    private SparseArray<Class<? extends BindableLayout>> viewTypes;
 
     public Mapper() {
         mapping = new ArrayMap<>();
@@ -48,7 +48,7 @@ public class Mapper {
             list.add(viewClass);
             mapping.put(objectClass, list);
         }
-        viewTypes.put(viewTypeFromViewClass(viewClass), objectClass);
+        viewTypes.put(viewTypeFromViewClass(viewClass), viewClass);
         clearCachedData();
         return this;
     }
@@ -138,12 +138,12 @@ public class Mapper {
     }
 
     /**
-     * Returns an object class based on the view type. See {@link #viewTypeFromViewClass(Class)}.
+     * Returns a view class based on the view type. See {@link #viewTypeFromViewClass(Class)}.
      *
      * @param viewType
      * @return
      */
-    public Class objectFromViewType(int viewType) {
+    public Class<? extends BindableLayout> viewClassFromViewType(int viewType) {
         return viewTypes.get(viewType);
     }
 

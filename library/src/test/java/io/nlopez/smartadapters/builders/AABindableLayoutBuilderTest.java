@@ -50,8 +50,9 @@ public class AABindableLayoutBuilderTest {
 
     @Test
     public void test_build() {
-        AABindableLayoutBuilder builder = new AABindableLayoutBuilder(mapper);
-        BindableLayout bindableLayout = builder.build(parent, MockModel2.class, mockModel2);
+        AABindableLayoutBuilder builder = new AABindableLayoutBuilder();
+        int viewType = builder.viewType(mockModel2, 0, mapper);
+        BindableLayout bindableLayout = builder.build(parent, viewType, mockModel2, mapper);
         assertNotNull(bindableLayout);
         MockLayout2 mockLayout = (MockLayout2) bindableLayout;
         assertTrue(mockLayout.fromBuild);
@@ -59,13 +60,15 @@ public class AABindableLayoutBuilderTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void test_crash_if_not_aa() {
-        AABindableLayoutBuilder builder = new AABindableLayoutBuilder(mapper);
-        BindableLayout bindableLayout = builder.build(parent, MockModel.class, mockModel);
+        AABindableLayoutBuilder builder = new AABindableLayoutBuilder();
+        int viewType = builder.viewType(mockModel, 0, mapper);
+        BindableLayout bindableLayout = builder.build(parent, viewType, mockModel, mapper);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void test_crash_if_unknown_view_class() {
-        AABindableLayoutBuilder builder = new AABindableLayoutBuilder(mapper);
-        BindableLayout bindableLayout = builder.build(parent, AABindableLayoutBuilder.class, null);
+        AABindableLayoutBuilder builder = new AABindableLayoutBuilder();
+        int viewType = builder.viewType(mockModel, 0, mapper);
+        BindableLayout bindableLayout = builder.build(parent, viewType, null, mapper);
     }
 }

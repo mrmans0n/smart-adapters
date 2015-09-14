@@ -19,13 +19,9 @@ import io.nlopez.smartadapters.views.BindableLayout;
  */
 public class AABindableLayoutBuilder extends DefaultBindableLayoutBuilder {
 
-    public AABindableLayoutBuilder(Mapper mapper) {
-        super(mapper);
-    }
-
     @Override
-    public BindableLayout build(@NonNull ViewGroup parent, @NonNull Class aClass, Object item) {
-        Class<? extends BindableLayout> viewClass = getViewClass(aClass, item);
+    public BindableLayout build(@NonNull ViewGroup parent, int viewType, Object item, Mapper mapper) {
+        Class<? extends BindableLayout> viewClass = mapper.viewClassFromViewType(viewType);
         try {
             Method method = Reflections.method(viewClass, "build", Context.class);
             return (BindableLayout) method.invoke(null, parent.getContext());

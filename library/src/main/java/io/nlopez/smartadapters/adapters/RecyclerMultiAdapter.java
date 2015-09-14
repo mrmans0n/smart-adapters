@@ -28,14 +28,14 @@ public class RecyclerMultiAdapter extends RecyclerView.Adapter<RecyclerView.View
 
 
     public RecyclerMultiAdapter(Mapper mapper, List listItems) {
-        this(mapper, listItems, createDefaultBuilder(mapper));
+        this(mapper, listItems, createDefaultBuilder());
     }
 
     public RecyclerMultiAdapter(Mapper mapper, List listItems, BindableLayoutBuilder builder) {
         this.listItems = listItems;
         this.mapper = mapper;
         if (builder == null) {
-            this.builder = createDefaultBuilder(mapper);
+            this.builder = createDefaultBuilder();
         } else {
             this.builder = builder;
         }
@@ -88,7 +88,7 @@ public class RecyclerMultiAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        BindableLayout viewGroup = builder.build(parent, mapper.objectFromViewType(viewType), null);
+        BindableLayout viewGroup = builder.build(parent, viewType, null, mapper);
         return new BindableViewHolder(viewGroup);
     }
 
@@ -108,7 +108,7 @@ public class RecyclerMultiAdapter extends RecyclerView.Adapter<RecyclerView.View
             return 0;
         }
         Object object = listItems.get(position);
-        return builder.viewType(object, position);
+        return builder.viewType(object, position, mapper);
     }
 
     @Override
@@ -121,7 +121,7 @@ public class RecyclerMultiAdapter extends RecyclerView.Adapter<RecyclerView.View
         return listItems == null ? 0 : listItems.size();
     }
 
-    private static BindableLayoutBuilder createDefaultBuilder(Mapper mapper) {
-        return new DefaultBindableLayoutBuilder(mapper);
+    private static BindableLayoutBuilder createDefaultBuilder() {
+        return new DefaultBindableLayoutBuilder();
     }
 }
