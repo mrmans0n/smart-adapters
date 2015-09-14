@@ -1,18 +1,19 @@
 package io.nlopez.smartadapters.utils;
 
-import android.util.ArrayMap;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.List;
+
 import io.nlopez.smartadapters.CustomTestRunner;
 import io.nlopez.smartadapters.mocks.MockLayout;
+import io.nlopez.smartadapters.mocks.MockLayout2;
 import io.nlopez.smartadapters.mocks.MockModel;
+import io.nlopez.smartadapters.views.BindableLayout;
 
-import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertSame;
 import static junit.framework.Assert.assertTrue;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.entry;
 
 /**
  * Tests for Mapper
@@ -24,27 +25,36 @@ public class MapperTest {
     public void test_add() {
         Mapper mapper = new Mapper();
         assertThat(mapper.asMap()).hasSize(0);
-        assertEquals(mapper.objectClasses(), 0);
+        assertThat(mapper.objectClasses()).hasSize(0);
         mapper.add(MockModel.class, MockLayout.class);
         assertThat(mapper.asMap())
                 .hasSize(1)
-                .containsExactly(entry(MockModel.class, ArrayMap.class));
-        assertEquals(mapper.objectClasses(), 1);
+                .containsKey(MockModel.class);
+        assertThat(mapper.objectClasses()).hasSize(1);
         assertTrue(mapper.containsObjectClass(MockModel.class));
         assertTrue(mapper.containsViewClass(MockLayout.class));
+        assertSame(mapper.get(MockModel.class).get(0), MockLayout.class);
     }
 
-    @Test(expected = AssertionError.class)
-    public void test_adding_duplicates_throws_exception() {
+    @Test
+    public void test_adding_duplicates_chains_objects() {
         Mapper mapper = new Mapper()
                 .add(MockModel.class, MockLayout.class)
-                .add(MockModel.class, MockLayout.class);
+                .add(MockModel.class, MockLayout2.class);
+        assertThat(mapper.asMap()).hasSize(1);
+        List<Class<? extends BindableLayout>> classes = mapper.get(MockModel.class);
+        assertThat(classes)
+                .contains(MockLayout.class, MockLayout2.class);
+        assertThat(mapper.viewClasses()).hasSize(2);
     }
 
     @Test
     public void test_get() {
         Mapper mapper = new Mapper();
         mapper.add(MockModel.class, MockLayout.class);
-        assertEquals(mapper.get(MockModel.class), MockLayout.class);
+        List<Class<? extends BindableLayout>> classes = mapper.get(MockModel.class);
+        assertThat(classes)
+                .hasSize(1)
+                .contains(MockLayout.class);
     }
 }

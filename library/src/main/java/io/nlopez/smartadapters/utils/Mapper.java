@@ -41,6 +41,7 @@ public class Mapper {
         if (mapping.containsKey(objectClass)) {
             List<Class<? extends BindableLayout>> classes = new ArrayList<>();
             classes.addAll(mapping.get(objectClass));
+            classes.add(viewClass);
             mapping.put(objectClass, classes);
         } else {
             List<Class<? extends BindableLayout>> list = new ArrayList<>();
