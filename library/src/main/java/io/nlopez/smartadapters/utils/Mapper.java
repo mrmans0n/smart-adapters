@@ -30,6 +30,12 @@ public class Mapper {
         viewTypes = new SparseArray<>();
     }
 
+    @VisibleForTesting
+    Mapper(Map mockMap, SparseArray mockTypes) {
+        this.mapping = mockMap;
+        this.viewTypes = mockTypes;
+    }
+
     /**
      * Associates an object with its representing view
      *

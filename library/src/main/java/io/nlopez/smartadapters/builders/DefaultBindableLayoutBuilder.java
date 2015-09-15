@@ -21,6 +21,9 @@ public class DefaultBindableLayoutBuilder implements BindableLayoutBuilder {
     public BindableLayout build(@NonNull ViewGroup parent, int viewType, Object item, @NonNull Mapper mapper) {
 
         Class<? extends BindableLayout> viewClass = mapper.viewClassFromViewType(viewType);
+        if (viewClass == null) {
+            throw new IllegalArgumentException("viewType not present in the mapper");
+        }
         try {
             Constructor constructor = Reflections.constructor(viewClass, Context.class);
             return (BindableLayout) constructor.newInstance(parent.getContext());
@@ -30,7 +33,7 @@ public class DefaultBindableLayoutBuilder implements BindableLayoutBuilder {
     }
 
     @Override
-    public int viewType(@NonNull Object item, int position, Mapper mapper) {
+    public int viewType(@NonNull Object item, int position, @NonNull Mapper mapper) {
         List<Class<? extends BindableLayout>> classes = mapper.get(item.getClass());
         if (classes == null) {
             throw new IllegalArgumentException("Object class " + item.getClass() + "not found in mapper");

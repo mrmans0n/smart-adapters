@@ -68,7 +68,7 @@ public class AABindableLayoutBuilderTest {
     @Test(expected = IllegalArgumentException.class)
     public void test_crash_if_unknown_view_class() {
         AABindableLayoutBuilder builder = new AABindableLayoutBuilder();
-        int viewType = builder.viewType(mockModel, 0, mapper);
-        BindableLayout bindableLayout = builder.build(parent, viewType, null, mapper);
+        int viewType = builder.viewType(0, 0, mapper);
+        BindableLayout bindableLayout = builder.build(parent, 0, null, mapper);
     }
 }

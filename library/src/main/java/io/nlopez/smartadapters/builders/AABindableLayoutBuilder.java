@@ -22,6 +22,9 @@ public class AABindableLayoutBuilder extends DefaultBindableLayoutBuilder {
     @Override
     public BindableLayout build(@NonNull ViewGroup parent, int viewType, Object item, @NonNull Mapper mapper) {
         Class<? extends BindableLayout> viewClass = mapper.viewClassFromViewType(viewType);
+        if (viewClass == null) {
+            throw new IllegalArgumentException("viewType not present in the mapper");
+        }
         try {
             Method method = Reflections.method(viewClass, "build", Context.class);
             return (BindableLayout) method.invoke(null, parent.getContext());
