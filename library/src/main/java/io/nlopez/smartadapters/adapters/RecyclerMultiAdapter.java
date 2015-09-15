@@ -18,13 +18,14 @@ import io.nlopez.smartadapters.views.BindableViewHolder;
 /**
  * Adapter for {@code RecyclerView} based widgets
  */
-public class RecyclerMultiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class RecyclerMultiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BasicSmartAdapter {
 
     protected Mapper mapper;
     protected List<Class> itemClassArray;
     protected List listItems;
     protected ViewEventListener viewEventListener;
     protected BindableLayoutBuilder builder;
+    private boolean autoDataSetChanged = true;
 
 
     public RecyclerMultiAdapter(Mapper mapper, List listItems) {
@@ -42,48 +43,71 @@ public class RecyclerMultiAdapter extends RecyclerView.Adapter<RecyclerView.View
         this.itemClassArray = new ArrayList<>(mapper.objectClasses());
     }
 
+    @Override
     public void setItems(List items) {
         ThreadHelper.crashIfBackgroundThread();
         listItems = items;
-        notifyDataSetChanged();
+        if (autoDataSetChanged) {
+            notifyDataSetChanged();
+        }
     }
 
+    @Override
     public void addItem(Object item) {
         ThreadHelper.crashIfBackgroundThread();
         listItems.add(item);
-        notifyDataSetChanged();
+        if (autoDataSetChanged) {
+            notifyDataSetChanged();
+        }
     }
 
+    @Override
     public void delItem(Object item) {
         ThreadHelper.crashIfBackgroundThread();
         listItems.remove(item);
-        notifyDataSetChanged();
+        if (autoDataSetChanged) {
+            notifyDataSetChanged();
+        }
     }
 
+    @Override
     public void addItems(List items) {
         ThreadHelper.crashIfBackgroundThread();
         listItems.addAll(items);
-        notifyDataSetChanged();
+        if (autoDataSetChanged) {
+            notifyDataSetChanged();
+        }
     }
 
+    @Override
     public void clearItems() {
         ThreadHelper.crashIfBackgroundThread();
         listItems.clear();
-        notifyDataSetChanged();
+        if (autoDataSetChanged) {
+            notifyDataSetChanged();
+        }
     }
 
+    @Override
     public ViewEventListener getViewEventListener() {
         return viewEventListener;
     }
 
+    @Override
     public void setViewEventListener(ViewEventListener viewEventListener) {
         this.viewEventListener = viewEventListener;
     }
 
+    @Override
     public void notifyAction(int actionId, Object object, int position, View view) {
         if (viewEventListener != null) {
             viewEventListener.onViewEvent(actionId, object, position, view);
         }
+    }
+
+    @Override
+    public void setAutoDataSetChanged(boolean enabled) {
+        this.autoDataSetChanged = enabled;
     }
 
     @Override
