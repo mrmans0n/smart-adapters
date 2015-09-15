@@ -18,7 +18,7 @@ import io.nlopez.smartadapters.views.BindableLayout;
 public class DefaultBindableLayoutBuilder implements BindableLayoutBuilder {
 
     @Override
-    public BindableLayout build(@NonNull ViewGroup parent, int viewType, Object item, Mapper mapper) {
+    public BindableLayout build(@NonNull ViewGroup parent, int viewType, Object item, @NonNull Mapper mapper) {
 
         Class<? extends BindableLayout> viewClass = mapper.viewClassFromViewType(viewType);
         try {
