@@ -15,7 +15,7 @@ Adding to your project
 Add this to your dependencies:
 
 ```groovy
-compile 'io.nlopez.smartadapters:library:1.1.2'
+compile 'io.nlopez.smartadapters:library:1.2.0'
 ```
 
 Usage
@@ -152,6 +152,8 @@ If we want to display different cells depending on the data of a single model or
 Here we have an example of a custom BindableLayoutBuilder created for a hypothetical case where the view class depends on the values of the object.
 
 ```java
+
+TODO - BUILD A GOOD EXAMPLE
 public class TweetBindableLayoutBuilder implements BindableLayoutBuilder {
 
     @Override
@@ -193,7 +195,7 @@ Common issues
 If you are already using RecyclerView in your project and have problems compiling, you can try setting the transitive property to false:
 
 ```groovy
-compile ('io.nlopez.smartadapters:library:1.1.2') {
+compile ('io.nlopez.smartadapters:library:1.2.0') {
     transitive = false
 }
 ```
