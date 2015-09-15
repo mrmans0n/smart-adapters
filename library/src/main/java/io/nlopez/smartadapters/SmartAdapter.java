@@ -1,6 +1,7 @@
 package io.nlopez.smartadapters;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 import android.support.v7.widget.RecyclerView;
 import android.widget.AbsListView;
 
@@ -75,7 +76,8 @@ public class SmartAdapter {
          * @param mapper mappings for objects to views
          * @return fluid interface for more settings
          */
-        public MultiAdaptersCreator mapper(@NonNull Mapper mapper) {
+        @VisibleForTesting
+        MultiAdaptersCreator mapper(@NonNull Mapper mapper) {
             this.mapper = mapper;
             return this;
         }
