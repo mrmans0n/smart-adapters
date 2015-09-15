@@ -1,10 +1,9 @@
 package io.nlopez.smartadapters.utils;
 
 import android.support.annotation.VisibleForTesting;
-import android.support.v4.util.ArrayMap;
-import android.util.SparseArray;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -21,19 +20,15 @@ import io.nlopez.smartadapters.views.BindableLayout;
  * now to have one view class to be mapped to various object classes.
  */
 public class Mapper {
+    // TODO change for ArrayMap + do a Shadow for Robolectric
     private Map<Class, List<Class<? extends BindableLayout>>> mapping;
     private Set<Class<? extends BindableLayout>> cachedViewClasses;
-    private SparseArray<Class<? extends BindableLayout>> viewTypes;
+    // TODO change for SparseArray + do a Shadow for Robolectric
+    private Map<Integer, Class<? extends BindableLayout>> viewTypes;
 
     public Mapper() {
-        mapping = new ArrayMap<>();
-        viewTypes = new SparseArray<>();
-    }
-
-    @VisibleForTesting
-    Mapper(Map mockMap, SparseArray mockTypes) {
-        this.mapping = mockMap;
-        this.viewTypes = mockTypes;
+        mapping = new HashMap<>();
+        viewTypes = new HashMap<>();
     }
 
     /**
