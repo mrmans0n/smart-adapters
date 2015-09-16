@@ -147,30 +147,27 @@ myViewListener = new ViewEventListener<Tweet>() {
 
 ### Advanced usage with custom builders
 
-If we want to display different cells depending on the data of a single model or something more convoluted, we can specify our own BindableLayoutBuilder interface for the classes to be instantiated.
+If we want to display different cells depending on the data of a single model or something more convoluted, we can specify our own BindableLayoutBuilder interface for the classes to be instantiated. The library allows multiple views mapped to the same view object as long as you provide a specific implementation for the viewType method in a BindableLayoutBuilder.
 
-Here we have an example of a custom BindableLayoutBuilder created for a hypothetical case where the view class depends on the values of the object.
+Here we have an example of a custom BindableLayoutBuilder created for a hypothetical case where the view class depends on the values of the object. Ideally it's enough to just overwrite the viewType method and return values depending on the desired view class. You have to return the values created by `Mapper.viewTypeFromViewClass(YourViewClass.class)`.
 
 ```java
-
-TODO - BUILD A GOOD EXAMPLE
-public class TweetBindableLayoutBuilder implements BindableLayoutBuilder {
+public class TweetBindableLayoutBuilder extends DefaultBindableLayoutBuilder {
 
     @Override
-    public BindableLayout build(ViewGroup parent, Mapper mapper, Class aClass, Object item) {
-        // parent = the parent, Mapper = object -> view mapper defined in the SmartAdapters invocation
-        // aClass = current model (item) class, item = current object
-        
-        Tweet tweet = (Tweet) item;
-        if (tweet.hasGallery()) {
-            return new TweetGalleryView(parent.getContext());
-        } else if (tweet.hasImage()) {
-            return new TweetImageView(parent.getContext());
-        } else if (tweet.hasEmbeds()) {
-            return new TweetEmbedView(parent.getContext());
-        } else {
-            return new TweetView(parent.getContext());
+    public int viewType(@NonNull Object item, int position, Mapper mapper) {
+        if (item instanceof Tweet.class) {
+            Tweet tweet = (Tweet) item;
+            if (tweet.hasGallery()) {
+                return Mapper.viewTypeFromViewClass(TweetGalleryView.class);
+            } else if (tweet.hasImage()) {
+                return Mapper.viewTypeFromViewClass(TweetImageView.class);
+            } else if (tweet.hasEmbeds()) {
+                return Mapper.viewTypeFromViewClass(TweetEmbedView.class);
+            }
         }
+        // With this fallback we return control for all the other cases to be handled as the default use.
+        return super(item, position, mapper);
     }
 }
 
@@ -181,6 +178,11 @@ We can add it to the adapter like this:
 ```java
 SmartAdapter.items(myObjectList)
     .listener(myViewListener)
+    .map(Tweet.class, TweetView.class)
+    .map(Tweet.class, TweetGalleryView.class)
+    .map(Tweet.class, TweetImageView.class)
+    .map(Tweet.class, TweetEmbedView.class)
+    .map(OtherThing.class, OtherThingView.class)
     .builder(new TweetBindableLayoutBuilder())
     .into(myListView);
 ```
