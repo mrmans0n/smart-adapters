@@ -3,6 +3,7 @@ package io.nlopez.smartadapters.utils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.HashMap;
 import java.util.List;
 
 import io.nlopez.smartadapters.CustomTestRunner;
@@ -23,7 +24,8 @@ public class MapperTest {
 
     @Test
     public void test_add() {
-        Mapper mapper = new Mapper();
+        Mapper mapper = new Mapper(new HashMap<Class, List<Class<? extends BindableLayout>>>(),
+                new HashMap<Integer, Class<? extends BindableLayout>>());
         assertThat(mapper.asMap()).hasSize(0);
         assertThat(mapper.objectClasses()).hasSize(0);
         mapper.add(MockModel.class, MockLayout.class);
