@@ -40,7 +40,7 @@ public class RecyclerMultiAdapter extends RecyclerView.Adapter<RecyclerView.View
         } else {
             this.builder = builder;
         }
-        this.itemClassArray = new ArrayList<>(mapper.asMap().keySet());
+        this.itemClassArray = new ArrayList<>(mapper.objectClasses());
     }
 
     @Override
@@ -112,7 +112,7 @@ public class RecyclerMultiAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        BindableLayout viewGroup = builder.build(parent, mapper, mapper.fromPosition(viewType), null);
+        BindableLayout viewGroup = builder.build(parent, viewType, null, mapper);
         return new BindableViewHolder(viewGroup);
     }
 
@@ -132,7 +132,7 @@ public class RecyclerMultiAdapter extends RecyclerView.Adapter<RecyclerView.View
             return 0;
         }
         Object object = listItems.get(position);
-        return mapper.position(object.getClass());
+        return builder.viewType(object, position, mapper);
     }
 
     @Override

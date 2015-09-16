@@ -37,4 +37,9 @@ public class MainActivity extends Activity {
         startActivity(new Intent(this, MultiRecyclerViewActivity.class));
     }
 
+    @OnClick(R.id.multi_recyclerview_custom_builder_button)
+    void launchMultiRecyclerViewCustomBuilder() {
+        startActivity(new Intent(this, MultiRecyclerViewCustomBuilderActivity.class));
+    }
+
 }

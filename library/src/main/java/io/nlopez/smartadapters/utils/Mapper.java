@@ -1,26 +1,41 @@
 package io.nlopez.smartadapters.utils;
 
+import android.support.annotation.VisibleForTesting;
+import android.support.v4.util.ArrayMap;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import io.nlopez.smartadapters.views.BindableLayout;
 
 /**
  * Helper class wrapping a @{code Map} for assigning object classes to their adequate view classes.
+ * It is optimized with the assumption that all the adds are going to be made before using the
+ * rest of the methods. It can be used afterwards but it will be slower if there are a ton of views.
+ * <p/>
+ * It is valid to have one object class mapped to various view classes, but it is not possible for
+ * now to have one view class to be mapped to various object classes.
  */
 public class Mapper {
-
-    // TODO this is a mess - switch this implementation to use a LinkedHashMap instead
-    private Map<Class, Class<? extends BindableLayout>> mapping;
-    private Map<Class, Integer> positions;
-    private Map<Integer, Class> positionsInverse;
-    private int current;
+    // TODO create a Shadow for Robolectric
+    private Map<Class, List<Class<? extends BindableLayout>>> mapping;
+    private Set<Class<? extends BindableLayout>> cachedViewClasses;
+    // TODO change for SparseArray + do a Shadow for Robolectric
+    private Map<Integer, Class<? extends BindableLayout>> viewTypes;
 
     public Mapper() {
-        mapping = new HashMap<>();
-        positions = new HashMap<>();
-        positionsInverse = new HashMap<>();
-        current = 0;
+        mapping = new ArrayMap<>();
+        viewTypes = new ArrayMap<>();
+    }
+
+    @VisibleForTesting
+    Mapper(Map<Class, List<Class<? extends BindableLayout>>> mockMapping, Map<Integer, Class<? extends BindableLayout>> mockViewTypes) {
+        this.mapping = mockMapping;
+        this.viewTypes = mockViewTypes;
     }
 
     /**
@@ -31,40 +46,19 @@ public class Mapper {
      * @return this, so you can chain calls
      */
     public Mapper add(Class objectClass, Class<? extends BindableLayout> viewClass) {
-        if (containsObjectClass(objectClass)) {
-            throw new AssertionError("Can't repeat object classes in the mapping");
+        if (mapping.containsKey(objectClass)) {
+            List<Class<? extends BindableLayout>> classes = new ArrayList<>();
+            classes.addAll(mapping.get(objectClass));
+            classes.add(viewClass);
+            mapping.put(objectClass, classes);
+        } else {
+            List<Class<? extends BindableLayout>> list = new ArrayList<>();
+            list.add(viewClass);
+            mapping.put(objectClass, list);
         }
-        mapping.put(objectClass, viewClass);
-        positions.put(objectClass, current);
-        positionsInverse.put(current, objectClass);
-        current++;
+        viewTypes.put(viewTypeFromViewClass(viewClass), viewClass);
+        clearCachedData();
         return this;
-    }
-
-    /**
-     * Returns the position in which the given model class was inserted
-     *
-     * @param objectClass model object
-     * @return order in which this class was inserted
-     */
-    public int position(Class objectClass) {
-        if (!positions.containsKey(objectClass)) {
-            throw new RuntimeException("Could not find object class " + objectClass.toString());
-        }
-        return positions.get(objectClass);
-    }
-
-    /**
-     * Gets the class that matches the position given
-     *
-     * @param position order position in which the model class was included
-     * @return this, so you can chain calls
-     */
-    public Class fromPosition(int position) {
-        if (!positionsInverse.containsKey(position)) {
-            throw new RuntimeException("Could not find position " + position);
-        }
-        return positionsInverse.get(position);
     }
 
     /**
@@ -84,34 +78,89 @@ public class Mapper {
      * @return TRUE if it is present, FALSE otherwise
      */
     public boolean containsViewClass(Class<? extends BindableLayout> viewClass) {
-        return mapping.containsValue(viewClass);
+        return viewClasses().contains(viewClass);
     }
 
     /**
-     * Returns the view class associated to the given object class
+     * Returns the view classes associated to the given object class
      *
      * @param objectClass model object
-     * @return view class associated to the model class given
+     * @return view classes associated to the model class given
      */
-    public Class<? extends BindableLayout> get(Class objectClass) {
+    public List<Class<? extends BindableLayout>> get(Class objectClass) {
         return mapping.get(objectClass);
     }
 
     /**
-     * Returns the number of mappings done this far
+     * Returns the number of views mapped done this far
      *
-     * @return number of mappings
+     * @return number of view mappings
      */
-    public int size() {
-        return mapping.size();
+    public int viewSize() {
+        return viewClasses().size();
     }
 
     /**
-     * Returns the object to view mapping as a Map object
+     * Returns the number of objects mapped done this far
      *
-     * @return map representing the call
+     * @return number of object mappings
      */
-    public Map<Class, Class<? extends BindableLayout>> asMap() {
+    public int objectSize() {
+        return objectClasses().size();
+    }
+
+    /**
+     * Returns all the object classes used in the mapper
+     *
+     * @return
+     */
+    public Set<Class> objectClasses() {
+        return mapping.keySet();
+    }
+
+    /**
+     * Returns all the view classes used in the mapper. The results are cached, so the first
+     * execution will be slower than the rest.
+     *
+     * @return
+     */
+    public Set<Class<? extends BindableLayout>> viewClasses() {
+        if (cachedViewClasses == null) {
+            cachedViewClasses = new LinkedHashSet<>();
+            for (Class classKey : mapping.keySet()) {
+                List<Class<? extends BindableLayout>> classes = mapping.get(classKey);
+                cachedViewClasses.addAll(classes);
+            }
+        }
+        return cachedViewClasses;
+    }
+
+    /**
+     * Returns a unique identifier for each view class
+     *
+     * @param viewClass
+     * @return
+     */
+    public static int viewTypeFromViewClass(Class<? extends BindableLayout> viewClass) {
+        return viewClass.getCanonicalName().hashCode();
+    }
+
+    /**
+     * Returns a view class based on the view type. See {@link #viewTypeFromViewClass(Class)}.
+     *
+     * @param viewType
+     * @return
+     */
+    public Class<? extends BindableLayout> viewClassFromViewType(int viewType) {
+        return viewTypes.get(viewType);
+    }
+
+    private void clearCachedData() {
+        cachedViewClasses = null;
+    }
+
+    @VisibleForTesting
+    Map<Class, List<Class<? extends BindableLayout>>> asMap() {
         return mapping;
     }
 }

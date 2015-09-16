@@ -26,6 +26,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     testCompile 'org.robolectric:robolectric:3.0'
     testCompile 'org.robolectric:robolectric-shadows:3.0'
+    testCompile 'org.robolectric:shadows-support-v4:3.0'
     testCompile 'org.mockito:mockito-core:1.9.5'
     testCompile 'org.assertj:assertj-core:1.7.1'
 }
@@ -46,6 +47,9 @@ android {
         targetCompatibility JavaVersion.VERSION_1_7
     }
 
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
 }
 
 android.libraryVariants

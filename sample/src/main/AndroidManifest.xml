@@ -29,5 +29,6 @@
         <activity android:name=".MultiListViewActivity" />
         <activity android:name=".SingleRecyclerViewActivity" />
         <activity android:name=".MultiRecyclerViewActivity" />
+        <activity android:name=".MultiRecyclerViewCustomBuilderActivity" />
     </application>
 </manifest>

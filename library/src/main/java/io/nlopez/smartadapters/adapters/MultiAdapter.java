@@ -111,16 +111,12 @@ public class MultiAdapter extends BaseAdapter implements BasicSmartAdapter {
             return 0;
         }
         Object object = getItem(position);
-        if (mapper.containsObjectClass(object.getClass())) {
-            return mapper.position(object.getClass());
-        } else {
-            return 0;
-        }
+        return builder.viewType(object, position, mapper);
     }
 
     @Override
     public int getViewTypeCount() {
-        return mapper.size();
+        return mapper.viewSize();
     }
 
     @Override
@@ -142,7 +138,7 @@ public class MultiAdapter extends BaseAdapter implements BasicSmartAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         BindableLayout viewGroup = (BindableLayout) convertView;
         if (viewGroup == null) {
-            viewGroup = builder.build(parent, mapper, getItem(position).getClass(), getItem(position));
+            viewGroup = builder.build(parent, getItemViewType(position), getItem(position), mapper);
         }
 
         if (viewGroup != null) {
