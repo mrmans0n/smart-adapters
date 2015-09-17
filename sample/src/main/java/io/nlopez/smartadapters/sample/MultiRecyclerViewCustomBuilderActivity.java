@@ -45,7 +45,7 @@ public class MultiRecyclerViewCustomBuilderActivity extends Activity {
                 .builder(new DefaultBindableLayoutBuilder() {
 
                     @Override
-                    public Class<BindableLayout> viewType(@NonNull Object item, int position, @NonNull Mapper mapper) {
+                    public Class<? extends BindableLayout> viewType(@NonNull Object item, int position, @NonNull Mapper mapper) {
                         if (item instanceof User) {
                             User user = (User) item;
                             if (user.getFirstName().length() % 2 == 1) {
