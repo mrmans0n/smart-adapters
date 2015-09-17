@@ -15,7 +15,7 @@ Adding to your project
 Add this to your dependencies:
 
 ```groovy
-compile 'io.nlopez.smartadapters:library:1.2.0'
+compile 'io.nlopez.smartadapters:library:1.2.1'
 ```
 
 Usage
@@ -149,24 +149,24 @@ myViewListener = new ViewEventListener<Tweet>() {
 
 If we want to display different cells depending on the data of a single model or something more convoluted, we can specify our own BindableLayoutBuilder interface for the classes to be instantiated. The library allows multiple views mapped to the same view object as long as you provide a specific implementation for the viewType method in a BindableLayoutBuilder.
 
-Here we have an example of a custom BindableLayoutBuilder created for a hypothetical case where the view class depends on the values of the object. Ideally it's enough to just overwrite the viewType method and return values depending on the desired view class. You have to return the values created by `Mapper.viewTypeFromViewClass(YourViewClass.class)`.
+Here we have an example of a custom BindableLayoutBuilder created for a hypothetical case where the view class depends on the values of the object. Ideally it's enough to just overwrite the viewType method and return values depending on the desired view class.
 
 ```java
 public class TweetBindableLayoutBuilder extends DefaultBindableLayoutBuilder {
 
     @Override
-    public int viewType(@NonNull Object item, int position, Mapper mapper) {
+    public ClassClass<? extends BindableLayout> viewType(@NonNull Object item, int position, Mapper mapper) {
         if (item instanceof Tweet) {
             // All the multiple bindings must be dealt with here and NOT get into the fallback
             Tweet tweet = (Tweet) item;
             if (tweet.hasGallery()) {
-                return Mapper.viewTypeFromViewClass(TweetGalleryView.class);
+                return TweetGalleryView.class;
             } else if (tweet.hasImage()) {
-                return Mapper.viewTypeFromViewClass(TweetImageView.class);
+                return TweetImageView.class;
             } else if (tweet.hasEmbeds()) {
-                return Mapper.viewTypeFromViewClass(TweetEmbedView.class);
+                return TweetEmbedView.class;
             } else {
-                return Mapper.viewTypeFromViewClass(TweetView.class);
+                return TweetView.class;
             }
         }
         // With this fallback we return control for all the other cases to be handled as the default use.
@@ -200,7 +200,7 @@ Common issues
 If you are already using RecyclerView in your project and have problems compiling, you can try setting the transitive property to false:
 
 ```groovy
-compile ('io.nlopez.smartadapters:library:1.2.0') {
+compile ('io.nlopez.smartadapters:library:1.2.1') {
     transitive = false
 }
 ```

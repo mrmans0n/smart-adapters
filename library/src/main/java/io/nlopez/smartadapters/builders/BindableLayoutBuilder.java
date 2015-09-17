@@ -9,5 +9,5 @@ import io.nlopez.smartadapters.views.BindableLayout;
 public interface BindableLayoutBuilder<T, Q extends BindableLayout<T>> {
     Q build(@NonNull ViewGroup parent, int viewType, T item, @NonNull Mapper mapper);
 
-    int viewType(@NonNull T item, int position, @NonNull Mapper mapper);
+    Class<Q> viewType(@NonNull T item, int position, @NonNull Mapper mapper);
 }

@@ -132,7 +132,7 @@ public class RecyclerMultiAdapter extends RecyclerView.Adapter<RecyclerView.View
             return 0;
         }
         Object object = listItems.get(position);
-        return builder.viewType(object, position, mapper);
+        return Mapper.viewTypeFromViewClass(builder.viewType(object, position, mapper));
     }
 
     @Override

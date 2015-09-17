@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.ViewGroup;
 
 import java.util.List;
 
@@ -46,13 +45,13 @@ public class MultiRecyclerViewCustomBuilderActivity extends Activity {
                 .builder(new DefaultBindableLayoutBuilder() {
 
                     @Override
-                    public int viewType(@NonNull Object item, int position, Mapper mapper) {
+                    public Class<? extends BindableLayout> viewType(@NonNull Object item, int position, @NonNull Mapper mapper) {
                         if (item instanceof User) {
                             User user = (User) item;
                             if (user.getFirstName().length() % 2 == 1) {
-                                return Mapper.viewTypeFromViewClass(UserView.class);
+                                return UserView.class;
                             } else {
-                                return Mapper.viewTypeFromViewClass(UserAltView.class);
+                                return UserAltView.class;
                             }
                         } else {
                             return super.viewType(item, position, mapper);

@@ -111,7 +111,7 @@ public class MultiAdapter extends BaseAdapter implements BasicSmartAdapter {
             return 0;
         }
         Object object = getItem(position);
-        return builder.viewType(object, position, mapper);
+        return Mapper.viewTypeFromViewClass(builder.viewType(object, position, mapper));
     }
 
     @Override

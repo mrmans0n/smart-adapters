@@ -33,13 +33,13 @@ public class DefaultBindableLayoutBuilder implements BindableLayoutBuilder {
     }
 
     @Override
-    public int viewType(@NonNull Object item, int position, @NonNull Mapper mapper) {
+    public Class<? extends BindableLayout> viewType(@NonNull Object item, int position, @NonNull Mapper mapper) {
         List<Class<? extends BindableLayout>> classes = mapper.get(item.getClass());
         if (classes == null) {
             throw new IllegalArgumentException("Object class " + item.getClass() + "not found in mapper");
         }
         if (classes.size() == 1) {
-            return Mapper.viewTypeFromViewClass(classes.get(0));
+            return classes.get(0);
         } else if (classes.size() > 1) {
             throw new RuntimeException("There are more than 1 view classes associated to the same object class. Please write a custom BindableLayoutBuilder for this case.");
         } else {
