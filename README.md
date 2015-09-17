@@ -156,7 +156,8 @@ public class TweetBindableLayoutBuilder extends DefaultBindableLayoutBuilder {
 
     @Override
     public int viewType(@NonNull Object item, int position, Mapper mapper) {
-        if (item instanceof Tweet.class) {
+        if (item instanceof Tweet) {
+            // All the multiple bindings must be dealt with here and NOT get into the fallback
             Tweet tweet = (Tweet) item;
             if (tweet.hasGallery()) {
                 return Mapper.viewTypeFromViewClass(TweetGalleryView.class);
@@ -164,10 +165,12 @@ public class TweetBindableLayoutBuilder extends DefaultBindableLayoutBuilder {
                 return Mapper.viewTypeFromViewClass(TweetImageView.class);
             } else if (tweet.hasEmbeds()) {
                 return Mapper.viewTypeFromViewClass(TweetEmbedView.class);
+            } else {
+                return Mapper.viewTypeFromViewClass(TweetView.class);
             }
         }
         // With this fallback we return control for all the other cases to be handled as the default use.
-        return super(item, position, mapper);
+        return super.viewType(item, position, mapper);
     }
 }
 
