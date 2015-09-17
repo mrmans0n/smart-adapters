@@ -44,6 +44,5 @@ public class BindableViewHolderTest {
         BindableViewHolder<MockModel> viewHolder = new BindableViewHolder<>(mockLayout);
         viewHolder.setViewEventListener(mockListener);
         verify(mockLayout).setViewEventListener(mockListener);
-
     }
 }

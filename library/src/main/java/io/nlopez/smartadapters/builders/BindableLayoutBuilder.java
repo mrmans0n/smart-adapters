@@ -6,8 +6,8 @@ import android.view.ViewGroup;
 import io.nlopez.smartadapters.utils.Mapper;
 import io.nlopez.smartadapters.views.BindableLayout;
 
-public interface BindableLayoutBuilder<T, Q extends BindableLayout<T>> {
-    Q build(@NonNull ViewGroup parent, int viewType, T item, @NonNull Mapper mapper);
+public interface BindableLayoutBuilder<T> {
+    BindableLayout build(@NonNull ViewGroup parent, int viewType, T item, @NonNull Mapper mapper);
 
-    Class<Q> viewType(@NonNull T item, int position, @NonNull Mapper mapper);
+    Class<? extends BindableLayout> viewType(@NonNull T item, int position, @NonNull Mapper mapper);
 }
