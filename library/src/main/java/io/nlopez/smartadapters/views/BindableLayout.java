@@ -7,11 +7,12 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.RelativeLayout;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import io.nlopez.smartadapters.utils.ViewEventListener;
 
-public abstract class BindableLayout<T> extends RelativeLayout {
+public abstract class BindableLayout<T> extends FrameLayout {
 
     protected ViewEventListener<T> viewEventListener;
     protected T item;
@@ -44,6 +45,8 @@ public abstract class BindableLayout<T> extends RelativeLayout {
         if (layoutId != 0) {
             inflate(context, layoutId, this);
         }
+        // This fix is needed because FrameLayout is fucked up with the RecyclerView (ignores width)
+        setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         onViewInflated();
     }
 
