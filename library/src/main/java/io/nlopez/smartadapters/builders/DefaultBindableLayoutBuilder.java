@@ -9,7 +9,7 @@ import java.util.List;
 
 import io.nlopez.smartadapters.utils.Mapper;
 import io.nlopez.smartadapters.utils.Reflections;
-import io.nlopez.smartadapters.views.BindableLayout;
+import io.nlopez.smartadapters.views.BindableFrameLayout;
 
 /**
  * Basic layout builder for most of the cases. It handles the reflection caching so the impact
@@ -18,23 +18,23 @@ import io.nlopez.smartadapters.views.BindableLayout;
 public class DefaultBindableLayoutBuilder implements BindableLayoutBuilder {
 
     @Override
-    public BindableLayout build(@NonNull ViewGroup parent, int viewType, Object item, @NonNull Mapper mapper) {
+    public ViewGroup build(@NonNull ViewGroup parent, int viewType, Object item, @NonNull Mapper mapper) {
 
-        Class<? extends BindableLayout> viewClass = mapper.viewClassFromViewType(viewType);
+        Class<? extends BindableFrameLayout> viewClass = mapper.viewClassFromViewType(viewType);
         if (viewClass == null) {
             throw new IllegalArgumentException("viewType not present in the mapper");
         }
         try {
             Constructor constructor = Reflections.constructor(viewClass, Context.class);
-            return (BindableLayout) constructor.newInstance(parent.getContext());
+            return (ViewGroup) constructor.newInstance(parent.getContext());
         } catch (Exception e) {
             throw new RuntimeException("Something went wrong creating the views. Please review your BindableLayout implementation.", e);
         }
     }
 
     @Override
-    public Class<? extends BindableLayout> viewType(@NonNull Object item, int position, @NonNull Mapper mapper) {
-        List<Class<? extends BindableLayout>> classes = mapper.get(item.getClass());
+    public Class<? extends BindableFrameLayout> viewType(@NonNull Object item, int position, @NonNull Mapper mapper) {
+        List<Class<? extends BindableFrameLayout>> classes = mapper.get(item.getClass());
         if (classes == null) {
             throw new IllegalArgumentException("Object class " + item.getClass() + "not found in mapper");
         }

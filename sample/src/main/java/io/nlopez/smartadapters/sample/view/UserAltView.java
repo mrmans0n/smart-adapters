@@ -12,12 +12,12 @@ import butterknife.InjectView;
 import io.nlopez.smartadapters.sample.R;
 import io.nlopez.smartadapters.sample.model.User;
 import io.nlopez.smartadapters.sample.util.Interactions;
-import io.nlopez.smartadapters.views.BindableLayout;
+import io.nlopez.smartadapters.views.BindableFrameLayout;
 
 /**
  * Created by mrm on 24/5/15.
  */
-public class UserAltView extends BindableLayout<User> {
+public class UserAltView extends BindableFrameLayout<User> {
 
     @InjectView(R.id.user_image)
     ImageView userImage;

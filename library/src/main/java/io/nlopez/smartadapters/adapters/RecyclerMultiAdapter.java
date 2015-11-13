@@ -12,8 +12,8 @@ import io.nlopez.smartadapters.builders.DefaultBindableLayoutBuilder;
 import io.nlopez.smartadapters.utils.Mapper;
 import io.nlopez.smartadapters.utils.ThreadHelper;
 import io.nlopez.smartadapters.utils.ViewEventListener;
-import io.nlopez.smartadapters.views.BindableLayout;
 import io.nlopez.smartadapters.views.BindableViewHolder;
+import io.nlopez.smartadapters.views.IBindableLayout;
 
 /**
  * Adapter for {@code RecyclerView} based widgets
@@ -112,8 +112,8 @@ public class RecyclerMultiAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        BindableLayout viewGroup = builder.build(parent, viewType, null, mapper);
-        return new BindableViewHolder(viewGroup);
+        ViewGroup viewGroup = builder.build(parent, viewType, null, mapper);
+        return new BindableViewHolder((IBindableLayout) viewGroup);
     }
 
     @Override

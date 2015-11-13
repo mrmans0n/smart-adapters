@@ -13,7 +13,7 @@ import io.nlopez.smartadapters.mocks.MockLayout2;
 import io.nlopez.smartadapters.mocks.MockModel;
 import io.nlopez.smartadapters.mocks.MockModel2;
 import io.nlopez.smartadapters.utils.Mapper;
-import io.nlopez.smartadapters.views.BindableLayout;
+import io.nlopez.smartadapters.views.BindableFrameLayout;
 
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
@@ -52,7 +52,7 @@ public class AABindableLayoutBuilderTest {
     public void test_build() {
         AABindableLayoutBuilder builder = new AABindableLayoutBuilder();
         int viewType = Mapper.viewTypeFromViewClass(builder.viewType(mockModel2, 0, mapper));
-        BindableLayout bindableLayout = builder.build(parent, viewType, mockModel2, mapper);
+        ViewGroup bindableLayout = builder.build(parent, viewType, mockModel2, mapper);
         assertNotNull(bindableLayout);
         MockLayout2 mockLayout = (MockLayout2) bindableLayout;
         assertTrue(mockLayout.fromBuild);
@@ -62,13 +62,13 @@ public class AABindableLayoutBuilderTest {
     public void test_crash_if_not_aa() {
         AABindableLayoutBuilder builder = new AABindableLayoutBuilder();
         int viewType = Mapper.viewTypeFromViewClass(builder.viewType(mockModel, 0, mapper));
-        BindableLayout bindableLayout = builder.build(parent, viewType, mockModel, mapper);
+        ViewGroup bindableLayout = builder.build(parent, viewType, mockModel, mapper);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void test_crash_if_unknown_view_class() {
         AABindableLayoutBuilder builder = new AABindableLayoutBuilder();
         int viewType = Mapper.viewTypeFromViewClass(builder.viewType(0, 0, mapper));
-        BindableLayout bindableLayout = builder.build(parent, 0, null, mapper);
+        ViewGroup bindableLayout = builder.build(parent, 0, null, mapper);
     }
 }

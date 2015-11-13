@@ -1,15 +1,17 @@
 package io.nlopez.smartadapters.views;
 
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.view.ViewGroup;
 
 import io.nlopez.smartadapters.utils.ViewEventListener;
 
 public class BindableViewHolder<T> extends RecyclerView.ViewHolder {
 
-    private BindableLayout<T> bindableLayout;
+    private IBindableLayout<T> bindableLayout;
 
-    public BindableViewHolder(BindableLayout<T> itemView) {
-        super(itemView);
+    public BindableViewHolder(IBindableLayout<T> itemView) {
+        super((View) itemView);
         bindableLayout = itemView;
 
     }

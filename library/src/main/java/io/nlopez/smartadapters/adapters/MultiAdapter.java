@@ -11,7 +11,8 @@ import io.nlopez.smartadapters.builders.DefaultBindableLayoutBuilder;
 import io.nlopez.smartadapters.utils.Mapper;
 import io.nlopez.smartadapters.utils.ThreadHelper;
 import io.nlopez.smartadapters.utils.ViewEventListener;
-import io.nlopez.smartadapters.views.BindableLayout;
+import io.nlopez.smartadapters.views.BindableFrameLayout;
+import io.nlopez.smartadapters.views.IBindableLayout;
 
 /**
  * Adapter for {@code AbsListView} based widgets
@@ -136,14 +137,15 @@ public class MultiAdapter extends BaseAdapter implements BasicSmartAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        BindableLayout viewGroup = (BindableLayout) convertView;
+        ViewGroup viewGroup = (BindableFrameLayout) convertView;
         if (viewGroup == null) {
             viewGroup = builder.build(parent, getItemViewType(position), getItem(position), mapper);
         }
 
         if (viewGroup != null) {
-            viewGroup.setViewEventListener(viewEventListener);
-            viewGroup.bind(getItem(position), position);
+            IBindableLayout bindableLayout = (IBindableLayout) viewGroup;
+            bindableLayout.setViewEventListener(viewEventListener);
+            bindableLayout.bind(getItem(position), position);
         }
         return viewGroup;
     }

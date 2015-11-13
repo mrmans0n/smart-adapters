@@ -19,7 +19,7 @@ import static org.mockito.Mockito.verify;
 public class BindableViewHolderTest {
 
     @Mock
-    BindableLayout<MockModel> mockLayout;
+    BindableFrameLayout<MockModel> mockLayout;
 
     @Mock
     ViewEventListener<MockModel> mockListener;

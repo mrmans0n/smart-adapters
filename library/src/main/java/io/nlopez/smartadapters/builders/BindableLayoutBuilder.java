@@ -4,10 +4,11 @@ import android.support.annotation.NonNull;
 import android.view.ViewGroup;
 
 import io.nlopez.smartadapters.utils.Mapper;
-import io.nlopez.smartadapters.views.BindableLayout;
+import io.nlopez.smartadapters.views.BindableFrameLayout;
+import io.nlopez.smartadapters.views.IBindableLayout;
 
 public interface BindableLayoutBuilder<T> {
-    BindableLayout build(@NonNull ViewGroup parent, int viewType, T item, @NonNull Mapper mapper);
+    <Q extends ViewGroup & IBindableLayout> Q build(@NonNull ViewGroup parent, int viewType, T item, @NonNull Mapper mapper);
 
-    Class<? extends BindableLayout> viewType(@NonNull T item, int position, @NonNull Mapper mapper);
+    Class<? extends BindableFrameLayout> viewType(@NonNull T item, int position, @NonNull Mapper mapper);
 }
