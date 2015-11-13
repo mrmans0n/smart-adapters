@@ -13,7 +13,7 @@ apply plugin: 'maven'
 apply plugin: 'signing'
 
 
-version '1.2.3'
+version '1.2.4-SNAPSHOT'
 group 'io.nlopez.smartadapters'
 
 dependencies {
@@ -22,7 +22,7 @@ dependencies {
         maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
     }
 
-    compile 'com.android.support:recyclerview-v7:23.0.1'
+    compile 'com.android.support:recyclerview-v7:23.1.0'
     testCompile 'junit:junit:4.12'
     testCompile 'org.robolectric:robolectric:3.0'
     testCompile 'org.robolectric:robolectric-shadows:3.0'
