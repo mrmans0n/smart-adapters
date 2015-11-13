@@ -9,7 +9,7 @@ import java.lang.reflect.Method;
 
 import io.nlopez.smartadapters.utils.Mapper;
 import io.nlopez.smartadapters.utils.Reflections;
-import io.nlopez.smartadapters.views.IBindableLayout;
+import io.nlopez.smartadapters.views.BindableLayout;
 
 /**
  * Specific layout builder for Android Annotations @EViewGroup annotated classes.
@@ -22,7 +22,7 @@ public class AABindableLayoutBuilder extends DefaultBindableLayoutBuilder {
     @Override
     public ViewGroup build(
             @NonNull ViewGroup parent, int viewType, Object item, @NonNull Mapper mapper) {
-        Class<? extends IBindableLayout> viewClass = mapper.viewClassFromViewType(viewType);
+        Class<? extends BindableLayout> viewClass = mapper.viewClassFromViewType(viewType);
         if (viewClass == null) {
             throw new IllegalArgumentException("viewType not present in the mapper");
         }

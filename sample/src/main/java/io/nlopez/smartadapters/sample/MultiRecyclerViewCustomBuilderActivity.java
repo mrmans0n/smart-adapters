@@ -20,7 +20,7 @@ import io.nlopez.smartadapters.sample.view.PlaceView;
 import io.nlopez.smartadapters.sample.view.UserAltView;
 import io.nlopez.smartadapters.sample.view.UserView;
 import io.nlopez.smartadapters.utils.Mapper;
-import io.nlopez.smartadapters.views.IBindableLayout;
+import io.nlopez.smartadapters.views.BindableLayout;
 
 public class MultiRecyclerViewCustomBuilderActivity extends Activity {
 
@@ -47,7 +47,7 @@ public class MultiRecyclerViewCustomBuilderActivity extends Activity {
                 .builder(new DefaultBindableLayoutBuilder() {
 
                     @Override
-                    public Class<? extends IBindableLayout> viewType(
+                    public Class<? extends BindableLayout> viewType(
                             @NonNull Object item, int position, @NonNull Mapper mapper) {
                         if (item instanceof User) {
                             User user = (User) item;

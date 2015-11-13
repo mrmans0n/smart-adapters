@@ -4,7 +4,7 @@ import android.view.View;
 
 import io.nlopez.smartadapters.utils.ViewEventListener;
 
-public interface IBindableLayout<T> {
+public interface BindableLayout<T> {
     void bind(T item, int position);
 
     void bind(T item);

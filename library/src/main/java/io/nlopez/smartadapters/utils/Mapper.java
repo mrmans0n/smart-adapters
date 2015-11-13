@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import io.nlopez.smartadapters.views.IBindableLayout;
+import io.nlopez.smartadapters.views.BindableLayout;
 
 /**
  * Helper class wrapping a @{code Map} for assigning object classes to their adequate view classes.
@@ -21,10 +21,10 @@ import io.nlopez.smartadapters.views.IBindableLayout;
  */
 public class Mapper {
     // TODO create a Shadow for Robolectric
-    private Map<Class, List<Class<? extends IBindableLayout>>> mapping;
-    private Set<Class<? extends IBindableLayout>> cachedViewClasses;
+    private Map<Class, List<Class<? extends BindableLayout>>> mapping;
+    private Set<Class<? extends BindableLayout>> cachedViewClasses;
     // TODO change for SparseArray + do a Shadow for Robolectric
-    private Map<Integer, Class<? extends IBindableLayout>> viewTypes;
+    private Map<Integer, Class<? extends BindableLayout>> viewTypes;
 
     public Mapper() {
         mapping = new ArrayMap<>();
@@ -32,7 +32,7 @@ public class Mapper {
     }
 
     @VisibleForTesting
-    Mapper(Map<Class, List<Class<? extends IBindableLayout>>> mockMapping, Map<Integer, Class<? extends IBindableLayout>> mockViewTypes) {
+    Mapper(Map<Class, List<Class<? extends BindableLayout>>> mockMapping, Map<Integer, Class<? extends BindableLayout>> mockViewTypes) {
         this.mapping = mockMapping;
         this.viewTypes = mockViewTypes;
     }
@@ -44,14 +44,14 @@ public class Mapper {
      * @param viewClass   view object that should inherit from BindableLayout
      * @return this, so you can chain calls
      */
-    public Mapper add(Class objectClass, Class<? extends IBindableLayout> viewClass) {
+    public Mapper add(Class objectClass, Class<? extends BindableLayout> viewClass) {
         if (mapping.containsKey(objectClass)) {
-            List<Class<? extends IBindableLayout>> classes = new ArrayList<>();
+            List<Class<? extends BindableLayout>> classes = new ArrayList<>();
             classes.addAll(mapping.get(objectClass));
             classes.add(viewClass);
             mapping.put(objectClass, classes);
         } else {
-            List<Class<? extends IBindableLayout>> list = new ArrayList<>();
+            List<Class<? extends BindableLayout>> list = new ArrayList<>();
             list.add(viewClass);
             mapping.put(objectClass, list);
         }
@@ -76,7 +76,7 @@ public class Mapper {
      * @param viewClass view class
      * @return TRUE if it is present, FALSE otherwise
      */
-    public boolean containsViewClass(Class<? extends IBindableLayout> viewClass) {
+    public boolean containsViewClass(Class<? extends BindableLayout> viewClass) {
         return viewClasses().contains(viewClass);
     }
 
@@ -86,7 +86,7 @@ public class Mapper {
      * @param objectClass model object
      * @return view classes associated to the model class given
      */
-    public List<Class<? extends IBindableLayout>> get(Class objectClass) {
+    public List<Class<? extends BindableLayout>> get(Class objectClass) {
         return mapping.get(objectClass);
     }
 
@@ -123,11 +123,11 @@ public class Mapper {
      *
      * @return
      */
-    public Set<Class<? extends IBindableLayout>> viewClasses() {
+    public Set<Class<? extends BindableLayout>> viewClasses() {
         if (cachedViewClasses == null) {
             cachedViewClasses = new LinkedHashSet<>();
             for (Class classKey : mapping.keySet()) {
-                List<Class<? extends IBindableLayout>> classes = mapping.get(classKey);
+                List<Class<? extends BindableLayout>> classes = mapping.get(classKey);
                 cachedViewClasses.addAll(classes);
             }
         }
@@ -140,7 +140,7 @@ public class Mapper {
      * @param viewClass
      * @return
      */
-    public static int viewTypeFromViewClass(Class<? extends IBindableLayout> viewClass) {
+    public static int viewTypeFromViewClass(Class<? extends BindableLayout> viewClass) {
         return viewClass.getCanonicalName().hashCode();
     }
 
@@ -150,7 +150,7 @@ public class Mapper {
      * @param viewType
      * @return
      */
-    public Class<? extends IBindableLayout> viewClassFromViewType(int viewType) {
+    public Class<? extends BindableLayout> viewClassFromViewType(int viewType) {
         return viewTypes.get(viewType);
     }
 
@@ -158,7 +158,7 @@ public class Mapper {
         cachedViewClasses = null;
     }
 
-    @VisibleForTesting Map<Class, List<Class<? extends IBindableLayout>>> asMap() {
+    @VisibleForTesting Map<Class, List<Class<? extends BindableLayout>>> asMap() {
         return mapping;
     }
 }

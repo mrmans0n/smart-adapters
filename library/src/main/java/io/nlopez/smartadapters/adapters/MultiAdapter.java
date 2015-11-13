@@ -12,7 +12,7 @@ import io.nlopez.smartadapters.utils.Mapper;
 import io.nlopez.smartadapters.utils.ThreadHelper;
 import io.nlopez.smartadapters.utils.ViewEventListener;
 import io.nlopez.smartadapters.views.BindableFrameLayout;
-import io.nlopez.smartadapters.views.IBindableLayout;
+import io.nlopez.smartadapters.views.BindableLayout;
 
 /**
  * Adapter for {@code AbsListView} based widgets
@@ -143,7 +143,7 @@ public class MultiAdapter extends BaseAdapter implements BasicSmartAdapter {
         }
 
         if (viewGroup != null) {
-            IBindableLayout bindableLayout = (IBindableLayout) viewGroup;
+            BindableLayout bindableLayout = (BindableLayout) viewGroup;
             bindableLayout.setViewEventListener(viewEventListener);
             bindableLayout.bind(getItem(position), position);
         }

@@ -12,7 +12,7 @@ import android.widget.LinearLayout;
 
 import io.nlopez.smartadapters.utils.ViewEventListener;
 
-public abstract class BindableLinearLayout<T> extends LinearLayout implements IBindableLayout<T> {
+public abstract class BindableLinearLayout<T> extends LinearLayout implements BindableLayout<T> {
 
     protected ViewEventListener<T> viewEventListener;
     protected T item;

@@ -9,8 +9,7 @@ import java.util.List;
 
 import io.nlopez.smartadapters.utils.Mapper;
 import io.nlopez.smartadapters.utils.Reflections;
-import io.nlopez.smartadapters.views.BindableFrameLayout;
-import io.nlopez.smartadapters.views.IBindableLayout;
+import io.nlopez.smartadapters.views.BindableLayout;
 
 /**
  * Basic layout builder for most of the cases. It handles the reflection caching so the impact
@@ -21,7 +20,7 @@ public class DefaultBindableLayoutBuilder implements BindableLayoutBuilder {
     @Override
     public ViewGroup build(@NonNull ViewGroup parent, int viewType, Object item, @NonNull Mapper mapper) {
 
-        Class<? extends IBindableLayout> viewClass = mapper.viewClassFromViewType(viewType);
+        Class<? extends BindableLayout> viewClass = mapper.viewClassFromViewType(viewType);
         if (viewClass == null) {
             throw new IllegalArgumentException("viewType not present in the mapper");
         }
@@ -34,8 +33,8 @@ public class DefaultBindableLayoutBuilder implements BindableLayoutBuilder {
     }
 
     @Override
-    public Class<? extends IBindableLayout> viewType(@NonNull Object item, int position, @NonNull Mapper mapper) {
-        List<Class<? extends IBindableLayout>> classes = mapper.get(item.getClass());
+    public Class<? extends BindableLayout> viewType(@NonNull Object item, int position, @NonNull Mapper mapper) {
+        List<Class<? extends BindableLayout>> classes = mapper.get(item.getClass());
         if (classes == null) {
             throw new IllegalArgumentException("Object class " + item.getClass() + "not found in mapper");
         }

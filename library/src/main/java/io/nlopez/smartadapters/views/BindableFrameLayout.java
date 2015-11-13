@@ -12,7 +12,7 @@ import android.widget.FrameLayout;
 
 import io.nlopez.smartadapters.utils.ViewEventListener;
 
-public abstract class BindableFrameLayout<T> extends FrameLayout implements IBindableLayout<T> {
+public abstract class BindableFrameLayout<T> extends FrameLayout implements BindableLayout<T> {
 
     protected ViewEventListener<T> viewEventListener;
     protected T item;

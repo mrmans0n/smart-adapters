@@ -7,13 +7,11 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
 import io.nlopez.smartadapters.utils.ViewEventListener;
 
-public abstract class BindableRelativeLayout<T> extends RelativeLayout implements IBindableLayout<T> {
+public abstract class BindableRelativeLayout<T> extends RelativeLayout implements BindableLayout<T> {
 
     protected ViewEventListener<T> viewEventListener;
     protected T item;
