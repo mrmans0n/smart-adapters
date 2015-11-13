@@ -13,7 +13,7 @@ import io.nlopez.smartadapters.adapters.RecyclerMultiAdapter;
 import io.nlopez.smartadapters.builders.BindableLayoutBuilder;
 import io.nlopez.smartadapters.utils.Mapper;
 import io.nlopez.smartadapters.utils.ViewEventListener;
-import io.nlopez.smartadapters.views.BindableFrameLayout;
+import io.nlopez.smartadapters.views.IBindableLayout;
 
 /**
  * Managing class for SmartAdapters library.
@@ -63,7 +63,8 @@ public class SmartAdapter {
          * @param viewClass   Class of the view (layout) class
          * @return fluid interface for more settings
          */
-        public MultiAdaptersCreator map(@NonNull Class objectClass, @NonNull Class<? extends BindableFrameLayout> viewClass) {
+        public MultiAdaptersCreator map(
+                @NonNull Class objectClass, @NonNull Class<? extends IBindableLayout> viewClass) {
             mapper.add(objectClass, viewClass);
             return this;
         }
@@ -76,8 +77,7 @@ public class SmartAdapter {
          * @param mapper mappings for objects to views
          * @return fluid interface for more settings
          */
-        @VisibleForTesting
-        MultiAdaptersCreator mapper(@NonNull Mapper mapper) {
+        @VisibleForTesting MultiAdaptersCreator mapper(@NonNull Mapper mapper) {
             this.mapper = mapper;
             return this;
         }

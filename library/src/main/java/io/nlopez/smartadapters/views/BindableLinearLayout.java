@@ -7,6 +7,7 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import io.nlopez.smartadapters.utils.ViewEventListener;
@@ -45,6 +46,8 @@ public abstract class BindableLinearLayout<T> extends LinearLayout implements IB
             inflate(context, layoutId, this);
         }
         setOrientation(getOrientation());
+        // This fix is needed because LinearLayout is fucked up with the RecyclerView (ignores width)
+        setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         onViewInflated();
     }
 

@@ -27,7 +27,6 @@ public class RecyclerMultiAdapter extends RecyclerView.Adapter<RecyclerView.View
     protected BindableLayoutBuilder builder;
     private boolean autoDataSetChanged = true;
 
-
     public RecyclerMultiAdapter(Mapper mapper, List listItems) {
         this(mapper, listItems, createDefaultBuilder());
     }
