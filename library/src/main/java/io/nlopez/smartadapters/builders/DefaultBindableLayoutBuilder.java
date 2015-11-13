@@ -46,4 +46,8 @@ public class DefaultBindableLayoutBuilder implements BindableLayoutBuilder {
             throw new RuntimeException("There are no view classes associated to the object class.");
         }
     }
+
+    @Override public boolean allowsMultimapping() {
+        return false;
+    }
 }

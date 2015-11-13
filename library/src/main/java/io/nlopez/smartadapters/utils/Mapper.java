@@ -31,8 +31,14 @@ public class Mapper {
         viewTypes = new ArrayMap<>();
     }
 
+    /**
+     * Please do not use this outside of testing.
+     *
+     * @param mockMapping
+     * @param mockViewTypes
+     */
     @VisibleForTesting
-    Mapper(Map<Class, List<Class<? extends BindableLayout>>> mockMapping, Map<Integer, Class<? extends BindableLayout>> mockViewTypes) {
+    public Mapper(Map<Class, List<Class<? extends BindableLayout>>> mockMapping, Map<Integer, Class<? extends BindableLayout>> mockViewTypes) {
         this.mapping = mockMapping;
         this.viewTypes = mockViewTypes;
     }

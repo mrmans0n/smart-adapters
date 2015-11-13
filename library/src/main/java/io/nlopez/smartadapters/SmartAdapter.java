@@ -136,6 +136,7 @@ public class SmartAdapter {
          * @return assigned adapter
          */
         public MultiAdapter into(@NonNull AbsListView widget) {
+            validateMapper();
             MultiAdapter adapter = adapter();
             widget.setAdapter(adapter);
             return adapter;
@@ -148,9 +149,25 @@ public class SmartAdapter {
          * @return assigned adapter
          */
         public RecyclerMultiAdapter into(@NonNull RecyclerView recyclerView) {
+            validateMapper();
             RecyclerMultiAdapter adapter = recyclerAdapter();
             recyclerView.setAdapter(adapter);
             return adapter;
+        }
+
+        private void validateMapper() {
+            if (builder != null && builder.allowsMultimapping()) {
+                return;
+            }
+
+            // We want to check if multimapping is disabled and we are using more than 1 view per object
+            // No builder = allowsMultimapping->FALSE
+            for (Class clazz : mapper.objectClasses()) {
+                List<Class<? extends BindableLayout>> viewClasses = mapper.get(clazz);
+                if (viewClasses.size() > 1) {
+                    throw new IllegalArgumentException("Object class " + clazz + " bound to more than 1 view class. You need to use a custom BindableLayoutBuilder that allows multimapping.");
+                }
+            }
         }
     }
 }
