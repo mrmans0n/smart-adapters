@@ -15,7 +15,7 @@ Adding to your project
 Add this to your dependencies:
 
 ```groovy
-compile 'io.nlopez.smartadapters:library:1.2.3'
+compile 'io.nlopez.smartadapters:library:1.3.0'
 ```
 
 Usage
@@ -200,7 +200,7 @@ Common issues
 If you are already using RecyclerView in your project and have problems compiling, you can try setting the transitive property to false:
 
 ```groovy
-compile ('io.nlopez.smartadapters:library:1.2.3') {
+compile ('io.nlopez.smartadapters:library:1.3.0') {
     transitive = false
 }
 ```
