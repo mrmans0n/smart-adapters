@@ -1,5 +1,6 @@
 package io.nlopez.smartadapters.builders;
 
+import android.view.View;
 import android.view.ViewGroup;
 
 import org.junit.Before;
@@ -52,7 +53,7 @@ public class AABindableLayoutBuilderTest {
     public void test_build() {
         AABindableLayoutBuilder builder = new AABindableLayoutBuilder();
         int viewType = Mapper.viewTypeFromViewClass(builder.viewType(mockModel2, 0, mapper));
-        ViewGroup bindableLayout = builder.build(parent, viewType, mockModel2, mapper);
+        View bindableLayout = builder.build(parent, viewType, mockModel2, mapper);
         assertNotNull(bindableLayout);
         MockLayout2 mockLayout = (MockLayout2) bindableLayout;
         assertTrue(mockLayout.fromBuild);
@@ -62,13 +63,13 @@ public class AABindableLayoutBuilderTest {
     public void test_crash_if_not_aa() {
         AABindableLayoutBuilder builder = new AABindableLayoutBuilder();
         int viewType = Mapper.viewTypeFromViewClass(builder.viewType(mockModel, 0, mapper));
-        ViewGroup bindableLayout = builder.build(parent, viewType, mockModel, mapper);
+        View bindableLayout = builder.build(parent, viewType, mockModel, mapper);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void test_crash_if_unknown_view_class() {
         AABindableLayoutBuilder builder = new AABindableLayoutBuilder();
         int viewType = Mapper.viewTypeFromViewClass(builder.viewType(0, 0, mapper));
-        ViewGroup bindableLayout = builder.build(parent, 0, null, mapper);
+        View bindableLayout = builder.build(parent, 0, null, mapper);
     }
 }

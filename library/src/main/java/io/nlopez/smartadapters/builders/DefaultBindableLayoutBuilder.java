@@ -2,6 +2,7 @@ package io.nlopez.smartadapters.builders;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.view.View;
 import android.view.ViewGroup;
 
 import java.lang.reflect.Constructor;
@@ -18,7 +19,7 @@ import io.nlopez.smartadapters.views.BindableLayout;
 public class DefaultBindableLayoutBuilder implements BindableLayoutBuilder {
 
     @Override
-    public ViewGroup build(@NonNull ViewGroup parent, int viewType, Object item, @NonNull Mapper mapper) {
+    public View build(@NonNull ViewGroup parent, int viewType, Object item, @NonNull Mapper mapper) {
 
         Class<? extends BindableLayout> viewClass = mapper.viewClassFromViewType(viewType);
         if (viewClass == null) {

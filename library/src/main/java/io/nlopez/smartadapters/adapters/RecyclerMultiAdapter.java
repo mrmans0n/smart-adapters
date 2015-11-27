@@ -111,8 +111,8 @@ public class RecyclerMultiAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        ViewGroup viewGroup = builder.build(parent, viewType, null, mapper);
-        return new BindableViewHolder((BindableLayout) viewGroup);
+        View view = builder.build(parent, viewType, null, mapper);
+        return new BindableViewHolder((BindableLayout) view);
     }
 
     @Override
