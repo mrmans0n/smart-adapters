@@ -45,8 +45,7 @@ public abstract class BindableFrameLayout<T> extends FrameLayout implements Bind
         if (layoutId != 0) {
             inflate(context, layoutId, this);
         }
-        // This fix is needed because FrameLayout is fucked up with the RecyclerView (ignores width)
-        setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         onViewInflated();
     }
 

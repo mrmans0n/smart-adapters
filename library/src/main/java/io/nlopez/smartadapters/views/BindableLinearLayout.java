@@ -46,8 +46,7 @@ public abstract class BindableLinearLayout<T> extends LinearLayout implements Bi
             inflate(context, layoutId, this);
         }
         setOrientation(getOrientation());
-        // This fix is needed because LinearLayout is fucked up with the RecyclerView (ignores width)
-        setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         onViewInflated();
     }
 
