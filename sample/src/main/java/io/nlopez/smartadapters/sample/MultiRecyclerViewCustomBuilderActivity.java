@@ -67,6 +67,11 @@ public class MultiRecyclerViewCustomBuilderActivity extends Activity {
                             return super.viewType(item, position, mapper);
                         }
                     }
+
+                    @Override
+                    public boolean allowsMultimapping() {
+                        return true;
+                    }
                 })
                 .into(recyclerView);
     }
