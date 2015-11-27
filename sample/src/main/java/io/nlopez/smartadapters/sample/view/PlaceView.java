@@ -2,6 +2,7 @@ package io.nlopez.smartadapters.sample.view;
 
 import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -37,6 +38,7 @@ public class PlaceView extends BindableFrameLayout<Place> {
     @Override
     public void onViewInflated() {
         ButterKnife.inject(this);
+        setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
     }
 
     @Override

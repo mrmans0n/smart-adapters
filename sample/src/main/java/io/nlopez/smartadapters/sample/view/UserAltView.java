@@ -41,6 +41,7 @@ public class UserAltView extends BindableLinearLayout<User> {
     @Override
     public void onViewInflated() {
         ButterKnife.inject(this);
+        setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
     }
 
     @Override public int getOrientation() {

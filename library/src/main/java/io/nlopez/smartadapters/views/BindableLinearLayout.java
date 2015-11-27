@@ -7,7 +7,6 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import io.nlopez.smartadapters.utils.ViewEventListener;
@@ -46,7 +45,6 @@ public abstract class BindableLinearLayout<T> extends LinearLayout implements Bi
             inflate(context, layoutId, this);
         }
         setOrientation(getOrientation());
-        setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         onViewInflated();
     }
 

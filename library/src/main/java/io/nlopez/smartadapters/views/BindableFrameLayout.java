@@ -7,7 +7,6 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import io.nlopez.smartadapters.utils.ViewEventListener;
@@ -45,7 +44,6 @@ public abstract class BindableFrameLayout<T> extends FrameLayout implements Bind
         if (layoutId != 0) {
             inflate(context, layoutId, this);
         }
-        setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         onViewInflated();
     }
 
