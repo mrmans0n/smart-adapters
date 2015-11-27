@@ -137,7 +137,7 @@ public class MultiAdapter extends BaseAdapter implements BasicSmartAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewGroup viewGroup = (BindableFrameLayout) convertView;
+        ViewGroup viewGroup = (ViewGroup) convertView;
         if (viewGroup == null) {
             viewGroup = builder.build(parent, getItemViewType(position), getItem(position), mapper);
         }
