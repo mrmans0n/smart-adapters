@@ -61,7 +61,7 @@ adapter.clearItems();
 
 All your view classes must implement the BindableLayout<YourModelClass> interface so we got a common entrypoint for binding the model data to the view.
 
-If looks like a lot of work, but you have some already implemented base classes depending on which you want to use as your base View. You can take a look at some implementation examples on the (sample project)[sample/src/main/java/io/nlopez/smartadapters/sample/view].
+If looks like a lot of work, but you have some already implemented base classes depending on which you want to use as your base View. You can take a look at some implementation examples on the [sample project](sample/src/main/java/io/nlopez/smartadapters/sample/view).
 
 - BindableFrameLayout
 - BindableLinearLayout (you have to implement getOrientation() here)
@@ -164,7 +164,7 @@ Here we have an example of a custom BindableLayoutBuilder created for a hypothet
 public class TweetBindableLayoutBuilder extends DefaultBindableLayoutBuilder {
 
     @Override
-    public ClassClass<? extends BindableLayout> viewType(@NonNull Object item, int position, Mapper mapper) {
+    public Class<? extends BindableLayout> viewType(@NonNull Object item, int position, @NonNull Mapper mapper) {
         if (item instanceof Tweet) {
             // All the multiple bindings must be dealt with here and NOT get into the fallback
             Tweet tweet = (Tweet) item;
@@ -190,6 +190,8 @@ public class TweetBindableLayoutBuilder extends DefaultBindableLayoutBuilder {
 
 ```
 
+You have a working example of this (in the samples)[].
+
 We can add it to the adapter like this:
 
 ```java
@@ -204,7 +206,7 @@ SmartAdapter.items(myObjectList)
     .into(myListView);
 ```
 
-You can check more examples [in the default builders included with the library](https://github.com/mrmans0n/smart-adapters/tree/master/library/src/main/java/io/nlopez/smartadapters/builders). 
+You can check more examples [in the default builders included with the library](library/src/main/java/io/nlopez/smartadapters/builders).
 
 The idea behind the builders is that you can, given the object and its class, create the view class by yourself and return to the adapter.
 

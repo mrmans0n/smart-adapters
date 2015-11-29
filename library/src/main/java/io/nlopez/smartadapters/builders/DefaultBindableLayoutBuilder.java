@@ -42,7 +42,7 @@ public class DefaultBindableLayoutBuilder implements BindableLayoutBuilder {
         if (classes.size() == 1) {
             return classes.get(0);
         } else if (classes.size() > 1) {
-            throw new RuntimeException("There are more than 1 view classes associated to the same object class. Please write a custom BindableLayoutBuilder for this case.");
+            throw new RuntimeException("There are more than 1 view classes associated to the same object class. Please write a custom BindableLayoutBuilder for this case, and ensure allowsMultimapping returns true.");
         } else {
             throw new RuntimeException("There are no view classes associated to the object class.");
         }
