@@ -59,10 +59,17 @@ adapter.clearItems();
 
 ### Preparing your view classes
 
-All your view classes must inherit BindableLayout<YourModelClass> so we got a common entrypoint for binding the model data to the view.
+All your view classes must implement the BindableLayout<YourModelClass> interface so we got a common entrypoint for binding the model data to the view.
+
+If looks like a lot of work, but you have some already implemented base classes depending on which you want to use as your base View. You can take a look at some implementation examples on the (sample project)[sample/src/main/java/io/nlopez/smartadapters/sample/view].
+
+- BindableFrameLayout
+- BindableLinearLayout (you have to implement getOrientation() here)
+- BindableRelativeLayout
+- BindableViewLayout for the adventurous not relying on ViewGroup
 
 ```java
-public class TweetView extends BindableLayout<Tweet> {
+public class TweetView extends BindableFrameLayout<Tweet> {
 
     // [...]
 
@@ -82,6 +89,8 @@ public class TweetView extends BindableLayout<Tweet> {
     public void onViewInflated() {
         // Here we should assign the views or use ButterKnife
         ButterKnife.inject(this);
+        // Fixes some horizontal fill layout
+        setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
     }
 
     @Override
@@ -149,7 +158,7 @@ myViewListener = new ViewEventListener<Tweet>() {
 
 If we want to display different cells depending on the data of a single model or something more convoluted, we can specify our own BindableLayoutBuilder interface for the classes to be instantiated. The library allows multiple views mapped to the same view object as long as you provide a specific implementation for the viewType method in a BindableLayoutBuilder.
 
-Here we have an example of a custom BindableLayoutBuilder created for a hypothetical case where the view class depends on the values of the object. Ideally it's enough to just overwrite the viewType method and return values depending on the desired view class.
+Here we have an example of a custom BindableLayoutBuilder created for a hypothetical case where the view class depends on the values of the object. Ideally it's enough to just overwrite the viewType method and return values depending on the desired view class. Also, allowing multiple views for the same type of object has to return true in the allowsMultimapping method.
 
 ```java
 public class TweetBindableLayoutBuilder extends DefaultBindableLayoutBuilder {
@@ -171,6 +180,11 @@ public class TweetBindableLayoutBuilder extends DefaultBindableLayoutBuilder {
         }
         // With this fallback we return control for all the other cases to be handled as the default use.
         return super.viewType(item, position, mapper);
+    }
+
+    @Override
+    public boolean allowsMultimapping() {
+        return true;
     }
 }
 
@@ -204,6 +218,14 @@ compile ('io.nlopez.smartadapters:library:1.3.0') {
     transitive = false
 }
 ```
+
+If your row doesn't fill horizontally your RecyclerView, you should specify the LayoutParams to MATCH_PARENT.
+
+```
+setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+```
+
+Please be aware that the type of the LayoutParams might have to be changed depending on where you are inflating the view. If you got ClassCastException on this, you know you have to change the type of the LayoutParms here.
 
 Contributing
 ------------
