@@ -13,17 +13,22 @@ import org.mockito.MockitoAnnotations;
 import org.robolectric.RuntimeEnvironment;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import io.nlopez.smartadapters.adapters.MultiAdapter;
 import io.nlopez.smartadapters.adapters.RecyclerMultiAdapter;
+import io.nlopez.smartadapters.builders.BindableLayoutBuilder;
 import io.nlopez.smartadapters.mocks.MockLayout;
+import io.nlopez.smartadapters.mocks.MockLayout2;
 import io.nlopez.smartadapters.mocks.MockModel;
 import io.nlopez.smartadapters.utils.Mapper;
 import io.nlopez.smartadapters.utils.ViewEventListener;
+import io.nlopez.smartadapters.views.BindableLayout;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 
 /**
  * Tests SmartAdapter builder class
@@ -47,12 +52,26 @@ public class SmartAdapterTest {
 
     @Mock
     List<MockModel> mockList;
+
+    @Mock
+    BindableLayoutBuilder mockBuilder;
+
+    @Mock
+    MockLayout mockLayout;
+
+    @Mock
+    MockLayout2 mockLayout2;
+
+    private Mapper trueMapper;
+
     public static final MockModel NOTIFY_MODEL = new MockModel();
     public static final MockLayout NOTIFY_VIEW = new MockLayout(RuntimeEnvironment.application);
 
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
+        trueMapper = new Mapper(new HashMap<Class, List<Class<? extends BindableLayout>>>(),
+                new HashMap<Integer, Class<? extends BindableLayout>>());
     }
 
     @Test
@@ -133,6 +152,40 @@ public class SmartAdapterTest {
     public void test_into_recycler() {
         RecyclerMultiAdapter adapter = SmartAdapter.empty().into(mockRecycler);
         verify(mockRecycler).setAdapter(adapter);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void test_multimapping_fail_listview() {
+        when(mockBuilder.allowsMultimapping()).thenReturn(false);
+        SmartAdapter.empty()
+                .mapper(trueMapper)
+                .map(MockModel.class, MockLayout.class)
+                .map(MockModel.class, MockLayout2.class)
+                .builder(mockBuilder)
+                .into(mockListView);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void test_multimapping_fail_recyclerview() {
+        when(mockBuilder.allowsMultimapping()).thenReturn(false);
+        SmartAdapter.empty()
+                .mapper(trueMapper)
+                .map(MockModel.class, MockLayout.class)
+                .map(MockModel.class, MockLayout2.class)
+                .builder(mockBuilder)
+                .into(mockRecycler);
+    }
+
+    @Test
+    public void test_multimapping_success() {
+        when(mockBuilder.allowsMultimapping()).thenReturn(true);
+        SmartAdapter.MultiAdaptersCreator builder = SmartAdapter.empty()
+                .map(MockModel.class, MockLayout.class)
+                .map(MockModel.class, MockLayout2.class)
+                .builder(mockBuilder);
+
+        builder.into(mockListView);
+        builder.into(mockRecycler);
     }
 
 }

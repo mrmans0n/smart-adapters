@@ -15,6 +15,7 @@ import io.nlopez.smartadapters.builders.DefaultBindableLayoutBuilder;
 import io.nlopez.smartadapters.sample.model.Place;
 import io.nlopez.smartadapters.sample.model.User;
 import io.nlopez.smartadapters.sample.util.DataGenerator;
+import io.nlopez.smartadapters.sample.view.PlaceAltView;
 import io.nlopez.smartadapters.sample.view.PlaceView;
 import io.nlopez.smartadapters.sample.view.UserAltView;
 import io.nlopez.smartadapters.sample.view.UserView;
@@ -42,10 +43,12 @@ public class MultiRecyclerViewCustomBuilderActivity extends Activity {
                 .map(User.class, UserView.class)
                 .map(User.class, UserAltView.class)
                 .map(Place.class, PlaceView.class)
+                .map(Place.class, PlaceAltView.class)
                 .builder(new DefaultBindableLayoutBuilder() {
 
                     @Override
-                    public Class<? extends BindableLayout> viewType(@NonNull Object item, int position, @NonNull Mapper mapper) {
+                    public Class<? extends BindableLayout> viewType(
+                            @NonNull Object item, int position, @NonNull Mapper mapper) {
                         if (item instanceof User) {
                             User user = (User) item;
                             if (user.getFirstName().length() % 2 == 1) {
@@ -53,9 +56,21 @@ public class MultiRecyclerViewCustomBuilderActivity extends Activity {
                             } else {
                                 return UserAltView.class;
                             }
+                        } else if (item instanceof Place) {
+                            Place place = (Place) item;
+                            if (place.getName().length() % 2 == 1) {
+                                return PlaceView.class;
+                            } else {
+                                return PlaceAltView.class;
+                            }
                         } else {
                             return super.viewType(item, position, mapper);
                         }
+                    }
+
+                    @Override
+                    public boolean allowsMultimapping() {
+                        return true;
                     }
                 })
                 .into(recyclerView);

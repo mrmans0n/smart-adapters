@@ -2,12 +2,12 @@ package io.nlopez.smartadapters.mocks;
 
 import android.content.Context;
 
-import io.nlopez.smartadapters.views.BindableLayout;
+import io.nlopez.smartadapters.views.BindableFrameLayout;
 
 /**
  * Mimics a AA generated @EViewGroup
  */
-public class MockLayout2 extends BindableLayout<MockModel> {
+public class MockLayout2 extends BindableFrameLayout<MockModel> {
 
     public boolean fromBuild = false;
 

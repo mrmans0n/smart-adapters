@@ -4,7 +4,6 @@ import android.support.annotation.VisibleForTesting;
 import android.support.v4.util.ArrayMap;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -32,8 +31,14 @@ public class Mapper {
         viewTypes = new ArrayMap<>();
     }
 
+    /**
+     * Please do not use this outside of testing.
+     *
+     * @param mockMapping
+     * @param mockViewTypes
+     */
     @VisibleForTesting
-    Mapper(Map<Class, List<Class<? extends BindableLayout>>> mockMapping, Map<Integer, Class<? extends BindableLayout>> mockViewTypes) {
+    public Mapper(Map<Class, List<Class<? extends BindableLayout>>> mockMapping, Map<Integer, Class<? extends BindableLayout>> mockViewTypes) {
         this.mapping = mockMapping;
         this.viewTypes = mockViewTypes;
     }
@@ -159,8 +164,7 @@ public class Mapper {
         cachedViewClasses = null;
     }
 
-    @VisibleForTesting
-    Map<Class, List<Class<? extends BindableLayout>>> asMap() {
+    @VisibleForTesting Map<Class, List<Class<? extends BindableLayout>>> asMap() {
         return mapping;
     }
 }

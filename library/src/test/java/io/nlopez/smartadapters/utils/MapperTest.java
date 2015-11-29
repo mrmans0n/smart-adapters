@@ -10,6 +10,7 @@ import io.nlopez.smartadapters.CustomTestRunner;
 import io.nlopez.smartadapters.mocks.MockLayout;
 import io.nlopez.smartadapters.mocks.MockLayout2;
 import io.nlopez.smartadapters.mocks.MockModel;
+import io.nlopez.smartadapters.views.BindableFrameLayout;
 import io.nlopez.smartadapters.views.BindableLayout;
 
 import static junit.framework.Assert.assertSame;

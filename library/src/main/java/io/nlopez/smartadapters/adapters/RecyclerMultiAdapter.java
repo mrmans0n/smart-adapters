@@ -27,7 +27,6 @@ public class RecyclerMultiAdapter extends RecyclerView.Adapter<RecyclerView.View
     protected BindableLayoutBuilder builder;
     private boolean autoDataSetChanged = true;
 
-
     public RecyclerMultiAdapter(Mapper mapper, List listItems) {
         this(mapper, listItems, createDefaultBuilder());
     }
@@ -112,8 +111,8 @@ public class RecyclerMultiAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        BindableLayout viewGroup = builder.build(parent, viewType, null, mapper);
-        return new BindableViewHolder(viewGroup);
+        View view = builder.build(parent, viewType, null, mapper);
+        return new BindableViewHolder((BindableLayout) view);
     }
 
     @Override

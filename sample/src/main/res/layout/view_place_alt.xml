@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+       xmlns:tools="http://schemas.android.com/tools">
+
+    <ImageView
+        android:id="@+id/place_image"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:scaleType="centerCrop"
+        tools:background="@android:color/holo_red_dark"/>
+
+    <TextView
+        android:id="@+id/place_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/place_image"
+        android:layout_alignRight="@+id/place_image"
+        android:layout_below="@+id/place_image"
+        android:layout_marginTop="8dp"
+        android:textSize="20sp"
+        tools:text="Some place"/>
+
+</merge>

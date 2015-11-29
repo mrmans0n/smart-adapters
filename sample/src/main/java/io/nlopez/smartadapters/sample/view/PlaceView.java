@@ -2,6 +2,7 @@ package io.nlopez.smartadapters.sample.view;
 
 import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,12 +13,12 @@ import butterknife.InjectView;
 import io.nlopez.smartadapters.sample.R;
 import io.nlopez.smartadapters.sample.model.Place;
 import io.nlopez.smartadapters.sample.util.Interactions;
-import io.nlopez.smartadapters.views.BindableLayout;
+import io.nlopez.smartadapters.views.BindableFrameLayout;
 
 /**
  * Created by mrm on 24/5/15.
  */
-public class PlaceView extends BindableLayout<Place> {
+public class PlaceView extends BindableFrameLayout<Place> {
 
     @InjectView(R.id.place_image)
     ImageView placeImage;
@@ -37,6 +38,7 @@ public class PlaceView extends BindableLayout<Place> {
     @Override
     public void onViewInflated() {
         ButterKnife.inject(this);
+        setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
     }
 
     @Override

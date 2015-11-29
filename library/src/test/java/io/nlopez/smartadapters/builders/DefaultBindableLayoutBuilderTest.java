@@ -1,5 +1,6 @@
 package io.nlopez.smartadapters.builders;
 
+import android.view.View;
 import android.view.ViewGroup;
 
 import org.junit.Before;
@@ -13,7 +14,6 @@ import io.nlopez.smartadapters.mocks.MockLayout2;
 import io.nlopez.smartadapters.mocks.MockModel;
 import io.nlopez.smartadapters.mocks.MockModel2;
 import io.nlopez.smartadapters.utils.Mapper;
-import io.nlopez.smartadapters.views.BindableLayout;
 
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
@@ -47,7 +47,7 @@ public class DefaultBindableLayoutBuilderTest {
     public void test_build() {
         DefaultBindableLayoutBuilder builder = new DefaultBindableLayoutBuilder();
         int viewType = Mapper.viewTypeFromViewClass(builder.viewType(mockModel, 0, mapper));
-        BindableLayout bindableLayout = builder.build(parent, viewType, mockModel, mapper);
+        View bindableLayout = builder.build(parent, viewType, mockModel, mapper);
         assertNotNull(bindableLayout);
         assertTrue(bindableLayout instanceof MockLayout);
     }
@@ -56,6 +56,6 @@ public class DefaultBindableLayoutBuilderTest {
     public void test_crash_if_unknown_view_class() {
         DefaultBindableLayoutBuilder builder = new DefaultBindableLayoutBuilder();
         int viewType = Mapper.viewTypeFromViewClass(builder.viewType(new Object(), 0, mapper));
-        BindableLayout bindableLayout = builder.build(parent, viewType, null, mapper);
+        View bindableLayout = builder.build(parent, viewType, null, mapper);
     }
 }

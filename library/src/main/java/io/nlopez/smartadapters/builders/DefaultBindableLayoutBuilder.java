@@ -2,6 +2,7 @@ package io.nlopez.smartadapters.builders;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.view.View;
 import android.view.ViewGroup;
 
 import java.lang.reflect.Constructor;
@@ -18,7 +19,7 @@ import io.nlopez.smartadapters.views.BindableLayout;
 public class DefaultBindableLayoutBuilder implements BindableLayoutBuilder {
 
     @Override
-    public BindableLayout build(@NonNull ViewGroup parent, int viewType, Object item, @NonNull Mapper mapper) {
+    public View build(@NonNull ViewGroup parent, int viewType, Object item, @NonNull Mapper mapper) {
 
         Class<? extends BindableLayout> viewClass = mapper.viewClassFromViewType(viewType);
         if (viewClass == null) {
@@ -26,7 +27,7 @@ public class DefaultBindableLayoutBuilder implements BindableLayoutBuilder {
         }
         try {
             Constructor constructor = Reflections.constructor(viewClass, Context.class);
-            return (BindableLayout) constructor.newInstance(parent.getContext());
+            return (ViewGroup) constructor.newInstance(parent.getContext());
         } catch (Exception e) {
             throw new RuntimeException("Something went wrong creating the views. Please review your BindableLayout implementation.", e);
         }
@@ -41,9 +42,13 @@ public class DefaultBindableLayoutBuilder implements BindableLayoutBuilder {
         if (classes.size() == 1) {
             return classes.get(0);
         } else if (classes.size() > 1) {
-            throw new RuntimeException("There are more than 1 view classes associated to the same object class. Please write a custom BindableLayoutBuilder for this case.");
+            throw new RuntimeException("There are more than 1 view classes associated to the same object class. Please write a custom BindableLayoutBuilder for this case, and ensure allowsMultimapping returns true.");
         } else {
             throw new RuntimeException("There are no view classes associated to the object class.");
         }
+    }
+
+    @Override public boolean allowsMultimapping() {
+        return false;
     }
 }
