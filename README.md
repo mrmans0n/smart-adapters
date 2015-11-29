@@ -63,10 +63,10 @@ All your view classes must implement the BindableLayout<YourModelClass> interfac
 
 If looks like a lot of work, but you have some already implemented base classes depending on which you want to use as your base View. You can take a look at some implementation examples on the [sample project](sample/src/main/java/io/nlopez/smartadapters/sample/view).
 
-- BindableFrameLayout
-- BindableLinearLayout (you have to implement getOrientation() here)
-- BindableRelativeLayout
-- BindableViewLayout for the adventurous not relying on ViewGroup
+- **BindableFrameLayout**
+- **BindableLinearLayout** (you have to implement getOrientation() here)
+- **BindableRelativeLayout**
+- **BindableViewLayout** for the adventurous not relying on ViewGroup
 
 ```java
 public class TweetView extends BindableFrameLayout<Tweet> {
@@ -190,8 +190,6 @@ public class TweetBindableLayoutBuilder extends DefaultBindableLayoutBuilder {
 
 ```
 
-You have a working example of this (in the samples)[].
-
 We can add it to the adapter like this:
 
 ```java
@@ -206,7 +204,9 @@ SmartAdapter.items(myObjectList)
     .into(myListView);
 ```
 
-You can check more examples [in the default builders included with the library](library/src/main/java/io/nlopez/smartadapters/builders).
+You have a working example of this particular case (in the samples)[sample/src/main/java/io/nlopez/smartadapters/sample/MultiRecyclerViewCustomBuilderActivity.java].
+
+You can also check more examples on how to implement builders [in the default builders included with the library](library/src/main/java/io/nlopez/smartadapters/builders).
 
 The idea behind the builders is that you can, given the object and its class, create the view class by yourself and return to the adapter.
 
