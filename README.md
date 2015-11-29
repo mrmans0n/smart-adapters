@@ -204,7 +204,7 @@ SmartAdapter.items(myObjectList)
     .into(myListView);
 ```
 
-You have a working example of this particular case (in the samples)[sample/src/main/java/io/nlopez/smartadapters/sample/MultiRecyclerViewCustomBuilderActivity.java].
+You have a working example of this particular case [in the samples](sample/src/main/java/io/nlopez/smartadapters/sample/MultiRecyclerViewCustomBuilderActivity.java).
 
 You can also check more examples on how to implement builders [in the default builders included with the library](library/src/main/java/io/nlopez/smartadapters/builders).
 
@@ -223,7 +223,7 @@ compile ('io.nlopez.smartadapters:library:1.3.0') {
 
 If your row doesn't fill horizontally your RecyclerView, you should specify the LayoutParams to MATCH_PARENT.
 
-```
+```java
 setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 ```
 
