@@ -13,4 +13,8 @@ public interface BindableLayoutBuilder<T> {
     Class<? extends BindableLayout> viewType(@NonNull T item, int position, @NonNull Mapper mapper);
 
     boolean allowsMultimapping();
+
+    boolean hasStableIds();
+
+    long viewItemId(@NonNull T item, int position, @NonNull Mapper mapper);
 }

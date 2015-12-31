@@ -4,13 +4,12 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
-
-import java.lang.reflect.Constructor;
-import java.util.List;
-
 import io.nlopez.smartadapters.utils.Mapper;
 import io.nlopez.smartadapters.utils.Reflections;
 import io.nlopez.smartadapters.views.BindableLayout;
+
+import java.lang.reflect.Constructor;
+import java.util.List;
 
 /**
  * Basic layout builder for most of the cases. It handles the reflection caching so the impact
@@ -50,5 +49,15 @@ public class DefaultBindableLayoutBuilder implements BindableLayoutBuilder {
 
     @Override public boolean allowsMultimapping() {
         return false;
+    }
+
+    @Override
+    public boolean hasStableIds() {
+        return false;
+    }
+
+    @Override
+    public long viewItemId(@NonNull Object item, int position, @NonNull Mapper mapper) {
+        return position;
     }
 }
