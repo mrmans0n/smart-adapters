@@ -1,5 +1,6 @@
 package io.nlopez.smartadapters.builders;
 
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -15,6 +16,7 @@ import io.nlopez.smartadapters.mocks.MockModel;
 import io.nlopez.smartadapters.mocks.MockModel2;
 import io.nlopez.smartadapters.utils.Mapper;
 
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.when;
@@ -58,4 +60,25 @@ public class DefaultBindableLayoutBuilderTest {
         int viewType = Mapper.viewTypeFromViewClass(builder.viewType(new Object(), 0, mapper));
         View bindableLayout = builder.build(parent, viewType, null, mapper);
     }
+
+    @Test
+    public void test_build_view_item_id() {
+        DefaultBindableLayoutBuilder builder = new DefaultBindableLayoutBuilder(){
+            @Override
+            public boolean hasStableIds() {
+                return true;
+            }
+
+            @Override
+            public long viewItemId(@NonNull Object item, int position, @NonNull Mapper mapper) {
+                return 100 + position;
+            }
+        };
+
+        long itemId = builder.viewItemId(mockModel, 0, mapper);
+
+        assertEquals(itemId,100);
+        assertTrue(builder.hasStableIds());
+    }
+
 }
