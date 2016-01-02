@@ -42,4 +42,9 @@ public class MainActivity extends Activity {
         startActivity(new Intent(this, MultiRecyclerViewCustomBuilderActivity.class));
     }
 
+    @OnClick(R.id.sticky_headers_recyclerview_custom_builder_button)
+    void launchStickyHeadersRecyclerViewCustomBuilder() {
+        startActivity(new Intent(this, StickyHeadersRecyclerViewActivity.class));
+    }
+
 }

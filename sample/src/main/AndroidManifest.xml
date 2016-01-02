@@ -30,5 +30,6 @@
         <activity android:name=".SingleRecyclerViewActivity" />
         <activity android:name=".MultiRecyclerViewActivity" />
         <activity android:name=".MultiRecyclerViewCustomBuilderActivity" />
+        <activity android:name=".StickyHeadersRecyclerViewActivity" />
     </application>
 </manifest>
