@@ -52,7 +52,7 @@ public class AABindableLayoutBuilderTest {
     @Test
     public void test_build() {
         AABindableLayoutBuilder builder = new AABindableLayoutBuilder();
-        int viewType = Mapper.viewTypeFromViewClass(builder.viewType(mockModel2, 0, mapper));
+        int viewType = mapper.viewTypeFromViewClass(builder.viewType(mockModel2, 0, mapper));
         View bindableLayout = builder.build(parent, viewType, mockModel2, mapper);
         assertNotNull(bindableLayout);
         MockLayout2 mockLayout = (MockLayout2) bindableLayout;
@@ -62,14 +62,14 @@ public class AABindableLayoutBuilderTest {
     @Test(expected = IllegalArgumentException.class)
     public void test_crash_if_not_aa() {
         AABindableLayoutBuilder builder = new AABindableLayoutBuilder();
-        int viewType = Mapper.viewTypeFromViewClass(builder.viewType(mockModel, 0, mapper));
+        int viewType = mapper.viewTypeFromViewClass(builder.viewType(mockModel, 0, mapper));
         View bindableLayout = builder.build(parent, viewType, mockModel, mapper);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void test_crash_if_unknown_view_class() {
         AABindableLayoutBuilder builder = new AABindableLayoutBuilder();
-        int viewType = Mapper.viewTypeFromViewClass(builder.viewType(0, 0, mapper));
+        int viewType = mapper.viewTypeFromViewClass(builder.viewType(0, 0, mapper));
         View bindableLayout = builder.build(parent, 0, null, mapper);
     }
 }

@@ -4,6 +4,7 @@ import android.support.annotation.VisibleForTesting;
 import android.support.v4.util.ArrayMap;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -20,15 +21,15 @@ import io.nlopez.smartadapters.views.BindableLayout;
  * now to have one view class to be mapped to various object classes.
  */
 public class Mapper {
-    // TODO create a Shadow for Robolectric
     private Map<Class, List<Class<? extends BindableLayout>>> mapping;
     private Set<Class<? extends BindableLayout>> cachedViewClasses;
-    // TODO change for SparseArray + do a Shadow for Robolectric
     private Map<Integer, Class<? extends BindableLayout>> viewTypes;
+    private Map<Class<? extends BindableLayout>, Integer> viewTypePositions;
 
     public Mapper() {
         mapping = new ArrayMap<>();
         viewTypes = new ArrayMap<>();
+        viewTypePositions = new ArrayMap<>();
     }
 
     /**
@@ -41,6 +42,7 @@ public class Mapper {
     public Mapper(Map<Class, List<Class<? extends BindableLayout>>> mockMapping, Map<Integer, Class<? extends BindableLayout>> mockViewTypes) {
         this.mapping = mockMapping;
         this.viewTypes = mockViewTypes;
+        this.viewTypePositions = new HashMap<>();
     }
 
     /**
@@ -61,7 +63,9 @@ public class Mapper {
             list.add(viewClass);
             mapping.put(objectClass, list);
         }
-        viewTypes.put(viewTypeFromViewClass(viewClass), viewClass);
+        int position = viewTypes.size();
+        viewTypes.put(position, viewClass);
+        viewTypePositions.put(viewClass, position);
         clearCachedData();
         return this;
     }
@@ -130,13 +134,7 @@ public class Mapper {
      * @return
      */
     public Set<Class<? extends BindableLayout>> viewClasses() {
-        if (cachedViewClasses == null) {
-            cachedViewClasses = new LinkedHashSet<>();
-            for (Class classKey : mapping.keySet()) {
-                List<Class<? extends BindableLayout>> classes = mapping.get(classKey);
-                cachedViewClasses.addAll(classes);
-            }
-        }
+        buildCachedData();
         return cachedViewClasses;
     }
 
@@ -146,8 +144,8 @@ public class Mapper {
      * @param viewClass
      * @return
      */
-    public static int viewTypeFromViewClass(Class<? extends BindableLayout> viewClass) {
-        return viewClass.getCanonicalName().hashCode();
+    public int viewTypeFromViewClass(Class<? extends BindableLayout> viewClass) {
+        return viewTypePositions.get(viewClass);
     }
 
     /**
@@ -160,11 +158,22 @@ public class Mapper {
         return viewTypes.get(viewType);
     }
 
+    private void buildCachedData() {
+        if (cachedViewClasses == null) {
+            cachedViewClasses = new LinkedHashSet<>();
+            for (Class classKey : mapping.keySet()) {
+                List<Class<? extends BindableLayout>> classes = mapping.get(classKey);
+                cachedViewClasses.addAll(classes);
+            }
+        }
+    }
+
     private void clearCachedData() {
         cachedViewClasses = null;
     }
 
-    @VisibleForTesting Map<Class, List<Class<? extends BindableLayout>>> asMap() {
+    @VisibleForTesting
+    Map<Class, List<Class<? extends BindableLayout>>> asMap() {
         return mapping;
     }
 }
