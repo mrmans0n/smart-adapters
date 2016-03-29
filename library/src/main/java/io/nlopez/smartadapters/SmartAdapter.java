@@ -1,6 +1,7 @@
 package io.nlopez.smartadapters;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.support.v7.widget.RecyclerView;
 import android.widget.AbsListView;
@@ -22,6 +23,10 @@ public class SmartAdapter {
 
     private SmartAdapter() {
 
+    }
+
+    public interface ConstructorRecyclerAdapter {
+        RecyclerMultiAdapter constructor(Mapper mapper, List listItems, BindableLayoutBuilder builder);
     }
 
     /**
@@ -130,6 +135,18 @@ public class SmartAdapter {
         }
 
         /**
+         *  Returns the instantiated adapter for RecyclerView
+         *
+         * @param constructorRecyclerAdapter
+         * @return adapter based on {@code RecyclerView.Adapter}
+         */
+        public RecyclerMultiAdapter recyclerAdapter(@NonNull ConstructorRecyclerAdapter constructorRecyclerAdapter) {
+            RecyclerMultiAdapter response = constructorRecyclerAdapter.constructor(mapper, elements, builder);
+            response.setViewEventListener(listener);
+            return response;
+        }
+
+        /**
          * Assigns the created adapter to the given {@code AbsListView} inherited widget (ListView, GridView).
          *
          * @param widget ListView, GridView, ie any widget inheriting from {@code AbsListView}
@@ -149,8 +166,19 @@ public class SmartAdapter {
          * @return assigned adapter
          */
         public RecyclerMultiAdapter into(@NonNull RecyclerView recyclerView) {
+           return into(recyclerView,null);
+        }
+
+        /**
+         * Assigns the created adapter to the given {@code RecyclerView}.
+         *
+         * @param recyclerView instance of RecyclerView
+         * @param constructorRecyclerAdapter
+         * @return assigned adapter
+         */
+        public RecyclerMultiAdapter into(@NonNull RecyclerView recyclerView,@Nullable ConstructorRecyclerAdapter constructorRecyclerAdapter) {
             validateMapper();
-            RecyclerMultiAdapter adapter = recyclerAdapter();
+            RecyclerMultiAdapter adapter = constructorRecyclerAdapter == null ? recyclerAdapter() : recyclerAdapter(constructorRecyclerAdapter);
             recyclerView.setAdapter(adapter);
             return adapter;
         }

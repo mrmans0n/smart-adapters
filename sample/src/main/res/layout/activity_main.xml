@@ -48,5 +48,14 @@
             android:padding="16dp"
             android:text="Multiple cell types - RecyclerView w/ Custom Builder" />
 
+
+        <Button
+            android:id="@+id/sticky_headers_recyclerview_custom_builder_button"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_margin="16dp"
+            android:padding="16dp"
+            android:text="Sticky headers - RecyclerView w/ Custom Builder" />
+
     </LinearLayout>
 </ScrollView>

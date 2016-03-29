@@ -3,10 +3,6 @@ package io.nlopez.smartadapters.adapters;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import io.nlopez.smartadapters.builders.BindableLayoutBuilder;
 import io.nlopez.smartadapters.builders.DefaultBindableLayoutBuilder;
 import io.nlopez.smartadapters.utils.Mapper;
@@ -14,6 +10,9 @@ import io.nlopez.smartadapters.utils.ThreadHelper;
 import io.nlopez.smartadapters.utils.ViewEventListener;
 import io.nlopez.smartadapters.views.BindableLayout;
 import io.nlopez.smartadapters.views.BindableViewHolder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Adapter for {@code RecyclerView} based widgets
@@ -40,6 +39,7 @@ public class RecyclerMultiAdapter extends RecyclerView.Adapter<RecyclerView.View
             this.builder = builder;
         }
         this.itemClassArray = new ArrayList<>(mapper.objectClasses());
+        this.setHasStableIds(this.builder.hasStableIds());
     }
 
     @Override
@@ -136,7 +136,8 @@ public class RecyclerMultiAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public long getItemId(int position) {
-        return position;
+        Object object = listItems.get(position);
+        return builder.viewItemId(object, position, mapper);
     }
 
     @Override
